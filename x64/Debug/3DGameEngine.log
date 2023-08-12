@@ -1,0 +1,12 @@
+﻿  3DGameEngine.cpp
+D:\Proyects\3DGameEngine\3DGameEngine.cpp(4,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+D:\Proyects\3DGameEngine\olcConsoleGameEngine.h(759,13): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Proyects\3DGameEngine\olcConsoleGameEngine.h(1099,31): warning C4267: 'return': conversion from 'size_t' to 'unsigned int', possible loss of data
+D:\Proyects\3DGameEngine\olcConsoleGameEngine.h(1196,4): warning C4312: 'type cast': conversion from 'DWORD' to 'olcConsoleGameEngine *' of greater size
+D:\Proyects\3DGameEngine\3DGameEngine.cpp(170,43): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+D:\Proyects\3DGameEngine\3DGameEngine.cpp(170,22): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+D:\Proyects\3DGameEngine\3DGameEngine.cpp(169,43): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+D:\Proyects\3DGameEngine\3DGameEngine.cpp(169,22): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+D:\Proyects\3DGameEngine\3DGameEngine.cpp(168,55): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+D:\Proyects\3DGameEngine\3DGameEngine.cpp(168,34): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+  3DGameEngine.vcxproj -> D:\Proyects\3DGameEngine\x64\Debug\3DGameEngine.exe
