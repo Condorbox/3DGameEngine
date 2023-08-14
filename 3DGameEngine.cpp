@@ -1,4 +1,8 @@
 
+//
+//File made thanks to the 3DEngine series by javidx9 (https://www.youtube.com/@javidx9/videos)
+//
+
 #include "olcConsoleGameEngine.h"
 #include <fstream>
 #include <strstream>
@@ -114,33 +118,46 @@ struct mesh
 		return true;
 	}
 
-	void loadBox() 
+	void LoadBox(float size = 1.0f) 
 	{
 		tris = {
 			// SOUTH
-			{ 0.0f, 0.0f, 0.0f, 1.0f,    0.0f, 1.0f, 0.0f, 1.0f,    1.0f, 1.0f, 0.0f, 1.0f,		0.0f, 1.0f, 1.0f,		0.0f, 0.0f, 1.0f,		1.0f, 0.0f, 1.0f,},
-			{ 0.0f, 0.0f, 0.0f, 1.0f,    1.0f, 1.0f, 0.0f, 1.0f,    1.0f, 0.0f, 0.0f, 1.0f,		0.0f, 1.0f, 1.0f,		1.0f, 0.0f, 1.0f,		1.0f, 1.0f, 1.0f,},
+			{ 0.0f, 0.0f, 0.0f, 1.0f,    0.0f, size, 0.0f, 1.0f,    size, size, 0.0f, 1.0f,		0.0f, 1.0f, 1.0f,		0.0f, 0.0f, 1.0f,		1.0f, 0.0f, 1.0f,},
+			{ 0.0f, 0.0f, 0.0f, 1.0f,    size, size, 0.0f, 1.0f,    size, 0.0f, 0.0f, 1.0f,		0.0f, 1.0f, 1.0f,		1.0f, 0.0f, 1.0f,		1.0f, 1.0f, 1.0f,},
 
 			// EAST           																			   
-			{ 1.0f, 0.0f, 0.0f, 1.0f,    1.0f, 1.0f, 0.0f, 1.0f,    1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 1.0f, 1.0f,		0.0f, 0.0f, 1.0f,		1.0f, 0.0f, 1.0f,},
-			{ 1.0f, 0.0f, 0.0f, 1.0f,    1.0f, 1.0f, 1.0f, 1.0f,    1.0f, 0.0f, 1.0f, 1.0f,		0.0f, 1.0f, 1.0f,		1.0f, 0.0f, 1.0f,		1.0f, 1.0f, 1.0f,},
+			{ size, 0.0f, 0.0f, 1.0f,    size, size, 0.0f, 1.0f,    size, size, size, 1.0f,		0.0f, 1.0f, 1.0f,		0.0f, 0.0f, 1.0f,		1.0f, 0.0f, 1.0f,},
+			{ size, 0.0f, 0.0f, 1.0f,    size, size, size, 1.0f,    size, 0.0f, size, 1.0f,		0.0f, 1.0f, 1.0f,		1.0f, 0.0f, 1.0f,		1.0f, 1.0f, 1.0f,},
 
 			// NORTH           																			   
-			{ 1.0f, 0.0f, 1.0f, 1.0f,    1.0f, 1.0f, 1.0f, 1.0f,    0.0f, 1.0f, 1.0f, 1.0f,		0.0f, 1.0f, 1.0f,		0.0f, 0.0f, 1.0f,		1.0f, 0.0f, 1.0f,},
-			{ 1.0f, 0.0f, 1.0f, 1.0f,    0.0f, 1.0f, 1.0f, 1.0f,    0.0f, 0.0f, 1.0f, 1.0f,		0.0f, 1.0f, 1.0f,		1.0f, 0.0f, 1.0f,		1.0f, 1.0f, 1.0f,},
+			{ size, 0.0f, size, 1.0f,    size, size, size, 1.0f,    0.0f, size, size, 1.0f,		0.0f, 1.0f, 1.0f,		0.0f, 0.0f, 1.0f,		1.0f, 0.0f, 1.0f,},
+			{ size, 0.0f, size, 1.0f,    0.0f, size, size, 1.0f,    0.0f, 0.0f, size, 1.0f,		0.0f, 1.0f, 1.0f,		1.0f, 0.0f, 1.0f,		1.0f, 1.0f, 1.0f,},
 
 			// WEST            																			   
-			{ 0.0f, 0.0f, 1.0f, 1.0f,    0.0f, 1.0f, 1.0f, 1.0f,    0.0f, 1.0f, 0.0f, 1.0f,		0.0f, 1.0f, 1.0f,		0.0f, 0.0f, 1.0f,		1.0f, 0.0f, 1.0f,},
-			{ 0.0f, 0.0f, 1.0f, 1.0f,    0.0f, 1.0f, 0.0f, 1.0f,    0.0f, 0.0f, 0.0f, 1.0f,		0.0f, 1.0f, 1.0f,		1.0f, 0.0f, 1.0f,		1.0f, 1.0f, 1.0f,},
+			{ 0.0f, 0.0f, size, 1.0f,    0.0f, size, size, 1.0f,    0.0f, size, 0.0f, 1.0f,		0.0f, 1.0f, 1.0f,		0.0f, 0.0f, 1.0f,		1.0f, 0.0f, 1.0f,},
+			{ 0.0f, 0.0f, size, 1.0f,    0.0f, size, 0.0f, 1.0f,    0.0f, 0.0f, 0.0f, 1.0f,		0.0f, 1.0f, 1.0f,		1.0f, 0.0f, 1.0f,		1.0f, 1.0f, 1.0f,},
 
 			// TOP             																			   
-			{ 0.0f, 1.0f, 0.0f, 1.0f,    0.0f, 1.0f, 1.0f, 1.0f,    1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 1.0f, 1.0f,		0.0f, 0.0f, 1.0f,		1.0f, 0.0f, 1.0f,},
-			{ 0.0f, 1.0f, 0.0f, 1.0f,    1.0f, 1.0f, 1.0f, 1.0f,    1.0f, 1.0f, 0.0f, 1.0f,		0.0f, 1.0f, 1.0f,		1.0f, 0.0f, 1.0f,		1.0f, 1.0f, 1.0f,},
+			{ 0.0f, size, 0.0f, 1.0f,    0.0f, size, size, 1.0f,    size, size, size, 1.0f,		0.0f, 1.0f, 1.0f,		0.0f, 0.0f, 1.0f,		1.0f, 0.0f, 1.0f,},
+			{ 0.0f, size, 0.0f, 1.0f,    size, size, size, 1.0f,    size, size, 0.0f, 1.0f,		0.0f, 1.0f, 1.0f,		1.0f, 0.0f, 1.0f,		1.0f, 1.0f, 1.0f,},
 
 			// BOTTOM          																			  
-			{ 1.0f, 0.0f, 1.0f, 1.0f,    0.0f, 0.0f, 1.0f, 1.0f,    0.0f, 0.0f, 0.0f, 1.0f,		0.0f, 1.0f, 1.0f,		0.0f, 0.0f, 1.0f,		1.0f, 0.0f, 1.0f,},
-			{ 1.0f, 0.0f, 1.0f, 1.0f,    0.0f, 0.0f, 0.0f, 1.0f,    1.0f, 0.0f, 0.0f, 1.0f,		0.0f, 1.0f, 1.0f,		1.0f, 0.0f, 1.0f,		1.0f, 1.0f, 1.0f,},
+			{ size, 0.0f, size, 1.0f,    0.0f, 0.0f, size, 1.0f,    0.0f, 0.0f, 0.0f, 1.0f,		0.0f, 1.0f, 1.0f,		0.0f, 0.0f, 1.0f,		1.0f, 0.0f, 1.0f,},
+			{ size, 0.0f, size, 1.0f,    0.0f, 0.0f, 0.0f, 1.0f,    size, 0.0f, 0.0f, 1.0f,		0.0f, 1.0f, 1.0f,		1.0f, 0.0f, 1.0f,		1.0f, 1.0f, 1.0f,},
 		};
+	}
+
+	void MoveMesh(const vec3d moveVector)
+	{
+		for (auto& tri : tris)
+		{
+			for (auto& vertex : tri.p)
+			{
+				vertex.x += moveVector.x;
+				vertex.y += moveVector.y;
+				vertex.z += moveVector.z;
+			}
+		}
 	}
 };
 
@@ -159,7 +176,7 @@ public:
 
 
 private:
-	mesh meshCube;
+	mesh meshBullet;
 	mat4x4 matProj;	// Matrix that converts from view space to screen space
 	vec3d vCamera;	// Location of camera in world space
 	vec3d vLookDir;	// Direction vector along the direction camera points
@@ -487,9 +504,7 @@ private:
 		}
 	}
 
-
-
-	// Taken From Command Line Webcam Video
+	// Taken From Command Line Webcam Video by javidx9 
 	CHAR_INFO GetColour(float lum)
 	{
 		short bg_col, fg_col;
@@ -534,7 +549,7 @@ public:
 		// Load object file
 		//meshCube.LoadFromObjectFile("teapot.obj", false);
 
-		meshCube.loadBox();
+		meshBullet.LoadBox(0.15f);
 
 		sprTex1 = new olcSprite(L"SeditSlimdeTransparent.spr");
 
@@ -608,8 +623,35 @@ public:
 		// Store triagles for rastering later
 		vector<triangle> vecTrianglesToRaster;
 
+		DrawTrianglesFromMesh(meshBullet, matWorld, matView, &vecTrianglesToRaster);
+
+		// Sort triangles from back to front
+		/*sort(vecTrianglesToRaster.begin(), vecTrianglesToRaster.end(), [](triangle &t1, triangle &t2)
+		{
+			float z1 = (t1.p[0].z + t1.p[1].z + t1.p[2].z) / 3.0f;
+			float z2 = (t2.p[0].z + t2.p[1].z + t2.p[2].z) / 3.0f;
+			return z1 > z2;
+		});*/
+
+		vec3d moveVector = { 0.0f * fElapsedTime, 0.0f * fElapsedTime, 0.35f * fElapsedTime, 1.0f };
+		meshBullet.MoveMesh(moveVector);
+
+		// Clear Screen
+		Fill(0, 0, ScreenWidth(), ScreenHeight(), PIXEL_SOLID, FG_CYAN);
+
+		// Clear Depth Buffer
+		for (int i = 0; i < ScreenWidth() * ScreenHeight(); i++)
+			pDepthBuffer[i] = 0.0f;
+
+		DrawRasterizedTriangles(vecTrianglesToRaster);
+
+		return true;
+	}
+
+	void DrawTrianglesFromMesh(mesh meshCube, mat4x4 matWorld, mat4x4 matView, vector<triangle>* vecTrianglesToRaster)
+	{
 		// Draw Triangles
-		for (auto tri : meshCube.tris)
+		for (auto& tri : meshCube.tris)
 		{
 			triangle triProjected, triTransformed, triViewed;
 
@@ -724,27 +766,14 @@ public:
 					triProjected.p[2].y *= 0.5f * (float)ScreenHeight();
 
 					// Store triangle for sorting
-					vecTrianglesToRaster.push_back(triProjected);
+					vecTrianglesToRaster->push_back(triProjected);
 				}
 			}
 		}
+	}
 
-		// Sort triangles from back to front
-		/*sort(vecTrianglesToRaster.begin(), vecTrianglesToRaster.end(), [](triangle &t1, triangle &t2)
-		{
-			float z1 = (t1.p[0].z + t1.p[1].z + t1.p[2].z) / 3.0f;
-			float z2 = (t2.p[0].z + t2.p[1].z + t2.p[2].z) / 3.0f;
-			return z1 > z2;
-		});*/
-
-		// Clear Screen
-		Fill(0, 0, ScreenWidth(), ScreenHeight(), PIXEL_SOLID, FG_CYAN);
-
-		// Clear Depth Buffer
-		for (int i = 0; i < ScreenWidth() * ScreenHeight(); i++)
-			pDepthBuffer[i] = 0.0f;
-
-
+	void DrawRasterizedTriangles(vector<triangle>& vecTrianglesToRaster)
+	{
 		// Loop through all transformed, viewed, projected, and sorted triangles
 		for (auto& triToRaster : vecTrianglesToRaster)
 		{
@@ -802,9 +831,6 @@ public:
 				//DrawTriangle(t.p[0].x, t.p[0].y, t.p[1].x, t.p[1].y, t.p[2].x, t.p[2].y, PIXEL_SOLID, FG_WHITE);
 			}
 		}
-
-
-		return true;
 	}
 
 	void TexturedTriangle(int x1, int y1, float u1, float v1, float w1,
@@ -978,8 +1004,6 @@ public:
 
 
 };
-
-
 
 
 int main()
