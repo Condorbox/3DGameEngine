@@ -13,15 +13,33 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\dynahex">
+      <UniqueIdentifier>{a6d2176e-6621-458a-873a-22f98d471ef8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\dynahex">
+      <UniqueIdentifier>{22408905-36fc-4f8d-b662-b07a341122c2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="3DGameEngine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="particle.cpp">
+      <Filter>Source Files\dynahex</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="olcConsoleGameEngine.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dynahex\core.h">
+      <Filter>Header Files\dynahex</Filter>
+    </ClInclude>
+    <ClInclude Include="dynahex\particle.h">
+      <Filter>Header Files\dynahex</Filter>
+    </ClInclude>
+    <ClInclude Include="dynahex\precision.h">
+      <Filter>Header Files\dynahex</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

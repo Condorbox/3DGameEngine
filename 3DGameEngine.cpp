@@ -8,6 +8,8 @@
 #include <strstream>
 #include <algorithm>
 #include <string>
+#include <dynahex/particle.h>
+
 using namespace std;
 
 // Created a 2D structure to hold texture coordinates
@@ -24,6 +26,18 @@ struct vec3d
 	float y = 0;
 	float z = 0;
 	float w = 1; // Need a 4th term to perform sensible matrix vector multiplication
+
+	static vec3d ConvertVector3ToVec3d(dynahex::Vector3 vector3)
+	{
+		return vec3d{ vector3.x, vector3.y, vector3.z, 1.0f};
+	}
+
+	void MultiplyConst(const float k)
+	{
+		x *= k;
+		y *= k;
+		z *= k;
+	}
 };
 
 struct triangle
@@ -174,7 +188,6 @@ public:
 		m_sAppName = L"3D Demo";
 	}
 
-
 private:
 	mesh meshBullet;
 	mat4x4 matProj;	// Matrix that converts from view space to screen space
@@ -182,6 +195,19 @@ private:
 	vec3d vLookDir;	// Direction vector along the direction camera points
 	float fYaw;		// FPS Camera rotation in XZ plane
 	float fTheta;	// Spins World transform
+
+	enum ShotType
+	{
+		UNUSED = 0,
+		PISTOL,
+		ARTILLERY,
+		FIREBALL,
+		LASER
+	};
+
+	ShotType type = PISTOL;
+
+	dynahex::Particle bullet;
 
 	olcSprite* sprTex1;
 
@@ -538,7 +564,48 @@ private:
 		return c;
 	}
 
-	float* pDepthBuffer = nullptr;
+	float* pDepthBuffer = nullptr; 
+
+	void fire(unsigned char key)
+	{
+		bullet.setPosition(0.0f, 0.0f, 0.0f);
+
+		switch (key)
+		{
+			case '1': 
+				type = PISTOL;
+				bullet.setMass(2.0f);
+				bullet.setVelocity(0.0f, 0.0f, 35.0f / 64.0f);
+				bullet.setAcceleration(0.0f, -1.0f / 64.0f, 0.0f);
+				bullet.setDamping(0.99f);
+				break;
+			case '2': 
+				type = ARTILLERY; 
+				bullet.setMass(200.0f);
+				bullet.setVelocity(0.0f, 30.0f / 64.0f, 40.0f / 64.0f);
+				bullet.setAcceleration(0.0f, -20.0f / 64.0f, 0.0f);
+				bullet.setDamping(0.99f);
+				break;
+			case '3': 
+				type = FIREBALL; 
+				bullet.setMass(1.0f);
+				bullet.setVelocity(0.0f, 0.0f, 10.0f / 64.0f);
+				bullet.setAcceleration(0.0f, 0.6f / 64.0f, 0.0f);
+				bullet.setDamping(0.9f);
+				break;
+			case '4': 
+				type = LASER; 
+				bullet.setMass(0.1f);
+				bullet.setVelocity(0.0f, 0.0f, 100.0f / 64.0f);
+				bullet.setAcceleration(0.0f, 0.0f, 0.0f);
+				bullet.setDamping(0.99f);
+				break;
+			default:
+				break;
+		}
+
+		meshBullet.LoadBox(0.15f);
+	}
 
 public:
 	bool OnUserCreate() override
@@ -591,8 +658,23 @@ public:
 		if (GetKey(L'D').bHeld)
 			fYaw += 2.0f * fElapsedTime;
 
-
-
+		// Bullet Controller
+		if (GetKey(L'1').bPressed) 
+		{
+			fire('1');
+		}
+		else if (GetKey(L'2').bPressed) 
+		{
+			fire('2');
+		}
+		else if (GetKey(L'3').bPressed)
+		{
+			fire('3');
+		}
+		else if (GetKey(L'4').bPressed)
+		{
+			fire('4');
+		}
 
 		// Set up "World Tranmsform" though not updating theta 
 		// makes this a bit redundant
@@ -633,7 +715,9 @@ public:
 			return z1 > z2;
 		});*/
 
-		vec3d moveVector = { 0.0f * fElapsedTime, 0.0f * fElapsedTime, 0.35f * fElapsedTime, 1.0f };
+		bullet.integrate(fElapsedTime);
+		vec3d moveVector = vec3d::ConvertVector3ToVec3d(bullet.getPosition());
+		moveVector.MultiplyConst(0.15f);  // Make bullet go slower
 		meshBullet.MoveMesh(moveVector);
 
 		// Clear Screen
