@@ -130,15 +130,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="3DGameEngine.cpp">
+    <ClCompile Include="BallisticDemo.cpp">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Proyects\3DGameEngine</AdditionalIncludeDirectories>
     </ClCompile>
+    <ClCompile Include="demos\Firework.cpp" />
     <ClCompile Include="particle.cpp" />
+    <ClCompile Include="random.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="App.cpp" />
     <ClInclude Include="dynahex\core.h" />
+    <ClInclude Include="dynahex\dynahex.h" />
     <ClInclude Include="dynahex\particle.h" />
     <ClInclude Include="dynahex\precision.h" />
+    <ClInclude Include="dynahex\random.h" />
     <ClInclude Include="olcConsoleGameEngine.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

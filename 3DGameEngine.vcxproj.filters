@@ -19,13 +19,22 @@
     <Filter Include="Source Files\dynahex">
       <UniqueIdentifier>{22408905-36fc-4f8d-b662-b07a341122c2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\dynahex\demos">
+      <UniqueIdentifier>{596a1e7d-82dc-49a8-a10e-46afe53e7f7d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="3DGameEngine.cpp">
+    <ClCompile Include="BallisticDemo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="particle.cpp">
       <Filter>Source Files\dynahex</Filter>
+    </ClCompile>
+    <ClCompile Include="random.cpp">
+      <Filter>Source Files\dynahex</Filter>
+    </ClCompile>
+    <ClCompile Include="demos\Firework.cpp">
+      <Filter>Source Files\dynahex\demos</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -40,6 +49,15 @@
     </ClInclude>
     <ClInclude Include="dynahex\precision.h">
       <Filter>Header Files\dynahex</Filter>
+    </ClInclude>
+    <ClInclude Include="dynahex\random.h">
+      <Filter>Header Files\dynahex</Filter>
+    </ClInclude>
+    <ClInclude Include="dynahex\dynahex.h">
+      <Filter>Header Files\dynahex</Filter>
+    </ClInclude>
+    <ClInclude Include="App.cpp">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
