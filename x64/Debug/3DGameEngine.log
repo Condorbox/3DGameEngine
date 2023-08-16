@@ -13,5 +13,15 @@ D:\Proyects\3DGameEngine\App.cpp(718,11): warning C4244: 'initializing': convers
 D:\Proyects\3DGameEngine\App.cpp(719,11): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
 D:\Proyects\3DGameEngine\App.cpp(778,11): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
 D:\Proyects\3DGameEngine\App.cpp(779,11): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\Proyects\3DGameEngine\main.cpp(143,4): warning C4305: 'argument': truncation from 'double' to 'dynahex::real'
+D:\Proyects\3DGameEngine\main.cpp(154,4): warning C4305: 'argument': truncation from 'double' to 'dynahex::real'
+D:\Proyects\3DGameEngine\main.cpp(164,4): warning C4305: 'argument': truncation from 'double' to 'dynahex::real'
+D:\Proyects\3DGameEngine\main.cpp(173,4): warning C4305: 'argument': truncation from 'double' to 'dynahex::real'
+D:\Proyects\3DGameEngine\main.cpp(182,4): warning C4305: 'argument': truncation from 'double' to 'dynahex::real'
+D:\Proyects\3DGameEngine\main.cpp(192,4): warning C4305: 'argument': truncation from 'double' to 'dynahex::real'
+D:\Proyects\3DGameEngine\main.cpp(201,4): warning C4305: 'argument': truncation from 'double' to 'dynahex::real'
+D:\Proyects\3DGameEngine\main.cpp(211,4): warning C4305: 'argument': truncation from 'double' to 'dynahex::real'
+D:\Proyects\3DGameEngine\main.cpp(220,4): warning C4305: 'argument': truncation from 'double' to 'dynahex::real'
+D:\Proyects\3DGameEngine\main.cpp(341,5): warning C4060: switch statement contains no 'case' or 'default' labels
 D:\Proyects\3DGameEngine\App.cpp(332): warning C4715: 'App::Triangle_ClipAgainstPlane': not all control paths return a value
   3DGameEngine.vcxproj -> D:\Proyects\3DGameEngine\x64\Debug\3DGameEngine.exe

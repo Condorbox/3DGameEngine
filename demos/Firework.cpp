@@ -1,6 +1,6 @@
 
-#include <particle.h>
-#include <random.h>
+#include "dynahex/random.h"
+#include "dynahex/particle.h"
 
 static dynahex::Random drandom;
 
