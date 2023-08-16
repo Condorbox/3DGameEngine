@@ -134,11 +134,13 @@
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Proyects\3DGameEngine</AdditionalIncludeDirectories>
     </ClCompile>
     <ClCompile Include="demos\Firework.cpp" />
+    <ClCompile Include="FireworkDemo.cpp" />
     <ClCompile Include="particle.cpp" />
     <ClCompile Include="random.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.cpp" />
+    <ClInclude Include="App.h" />
     <ClInclude Include="dynahex\core.h" />
     <ClInclude Include="dynahex\dynahex.h" />
     <ClInclude Include="dynahex\particle.h" />

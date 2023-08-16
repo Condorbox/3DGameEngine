@@ -552,109 +552,108 @@ protected :
 
 	float* pDepthBuffer = nullptr;
 
-	public:
-		virtual bool OnUserCreate() override
+public:
+	virtual bool OnUserCreate() override
 		{
 
-			pDepthBuffer = new float[ScreenWidth() * ScreenHeight()];
+		pDepthBuffer = new float[ScreenWidth() * ScreenHeight()];
 
-			// Load object file
-			//meshCube.LoadFromObjectFile("teapot.obj", false);
+		// Load object file
+		// meshCube.LoadFromObjectFile("teapot.obj", false);
 
-			meshCube.LoadBox(0.15f);
+		meshCube.LoadBox(0.15f);
 
-			sprTex1 = new olcSprite(L"SeditSlimdeTransparent.spr");
+		sprTex1 = new olcSprite(L"SeditSlimdeTransparent.spr");
 
-			// Projection Matrix
-			matProj = Matrix_MakeProjection(90.0f, (float)ScreenHeight() / (float)ScreenWidth(), 0.1f, 1000.0f);
-			return true;
-		}
+		// Projection Matrix
+		matProj = Matrix_MakeProjection(90.0f, (float)ScreenHeight() / (float)ScreenWidth(), 0.1f, 1000.0f);
+		return true;
+	}
 
-		virtual bool OnUserUpdate(float fElapsedTime) override
-		{
-			if (GetKey(VK_UP).bHeld)
-				vCamera.y += 8.0f * fElapsedTime;	// Travel Upwards
+	virtual bool OnUserUpdate(float fElapsedTime) override
+	{
+		if (GetKey(VK_UP).bHeld)
+			vCamera.y += 8.0f * fElapsedTime;	// Travel Upwards
 
-			if (GetKey(VK_DOWN).bHeld)
-				vCamera.y -= 8.0f * fElapsedTime;	// Travel Downwards
+		if (GetKey(VK_DOWN).bHeld)
+			vCamera.y -= 8.0f * fElapsedTime;	// Travel Downwards
 
 
-			// Dont use these two in FPS mode, it is confusing :P
-			if (GetKey(VK_LEFT).bHeld)
-				vCamera.x -= 8.0f * fElapsedTime;	// Travel Along X-Axis
+		// Dont use these two in FPS mode, it is confusing :P
+		if (GetKey(VK_LEFT).bHeld)
+			vCamera.x -= 8.0f * fElapsedTime;	// Travel Along X-Axis
 
-			if (GetKey(VK_RIGHT).bHeld)
-				vCamera.x += 8.0f * fElapsedTime;	// Travel Along X-Axis
+		if (GetKey(VK_RIGHT).bHeld)
+			vCamera.x += 8.0f * fElapsedTime;	// Travel Along X-Axis
 			///////
 
 
-			vec3d vForward = Vector_Mul(vLookDir, 8.0f * fElapsedTime);
+		vec3d vForward = Vector_Mul(vLookDir, 8.0f * fElapsedTime);
 
-			// Standard FPS Control scheme, but turn instead of strafe
-			if (GetKey(L'W').bHeld)
-				vCamera = Vector_Add(vCamera, vForward);
+		// Standard FPS Control scheme, but turn instead of strafe
+		if (GetKey(L'W').bHeld)
+			vCamera = Vector_Add(vCamera, vForward);
 
-			if (GetKey(L'S').bHeld)
-				vCamera = Vector_Sub(vCamera, vForward);
+		if (GetKey(L'S').bHeld)
+			vCamera = Vector_Sub(vCamera, vForward);
 
-			if (GetKey(L'A').bHeld)
-				fYaw -= 2.0f * fElapsedTime;
+		if (GetKey(L'A').bHeld)
+			fYaw -= 2.0f * fElapsedTime;
 
-			if (GetKey(L'D').bHeld)
-				fYaw += 2.0f * fElapsedTime;
+		if (GetKey(L'D').bHeld)
+			fYaw += 2.0f * fElapsedTime;
 
-			// Set up "World Tranmsform" though not updating theta 
-			// makes this a bit redundant
-			mat4x4 matRotZ, matRotX;
-			//fTheta += 1.0f * fElapsedTime; // Uncomment to spin me right round baby right round
-			matRotZ = Matrix_MakeRotationZ(fTheta * 0.5f);
-			matRotX = Matrix_MakeRotationX(fTheta);
+		// Set up "World Tranmsform" though not updating theta 
+		// makes this a bit redundant
+		mat4x4 matRotZ, matRotX;
+		//fTheta += 1.0f * fElapsedTime; // Uncomment to spin me right round baby right round
+		matRotZ = Matrix_MakeRotationZ(fTheta * 0.5f);
+		matRotX = Matrix_MakeRotationX(fTheta);
 
-			mat4x4 matTrans;
-			matTrans = Matrix_MakeTranslation(0.0f, 0.0f, 5.0f);
+		mat4x4 matTrans;
+		matTrans = Matrix_MakeTranslation(0.0f, 0.0f, 5.0f);
 
-			mat4x4 matWorld;
-			matWorld = Matrix_MakeIdentity();	// Form World Matrix
-			matWorld = Matrix_MultiplyMatrix(matRotZ, matRotX); // Transform by rotation
-			matWorld = Matrix_MultiplyMatrix(matWorld, matTrans); // Transform by translation
+		mat4x4 matWorld;
+		matWorld = Matrix_MakeIdentity();	// Form World Matrix
+		matWorld = Matrix_MultiplyMatrix(matRotZ, matRotX); // Transform by rotation
+		matWorld = Matrix_MultiplyMatrix(matWorld, matTrans); // Transform by translation
 
-			// Create "Point At" Matrix for camera
-			vec3d vUp = { 0,1,0 };
-			vec3d vTarget = { 0,0,1 };
-			mat4x4 matCameraRot = Matrix_MakeRotationY(fYaw);
-			vLookDir = Matrix_MultiplyVector(matCameraRot, vTarget);
-			vTarget = Vector_Add(vCamera, vLookDir);
-			mat4x4 matCamera = Matrix_PointAt(vCamera, vTarget, vUp);
+		// Create "Point At" Matrix for camera
+		vec3d vUp = { 0,1,0 };
+		vec3d vTarget = { 0,0,1 };
+		mat4x4 matCameraRot = Matrix_MakeRotationY(fYaw);
+		vLookDir = Matrix_MultiplyVector(matCameraRot, vTarget);
+		vTarget = Vector_Add(vCamera, vLookDir);
+		mat4x4 matCamera = Matrix_PointAt(vCamera, vTarget, vUp);
 
-			// Make view matrix from camera
-			mat4x4 matView = Matrix_QuickInverse(matCamera);
+		// Make view matrix from camera
+		mat4x4 matView = Matrix_QuickInverse(matCamera);
 
-			// Store triagles for rastering later
-			vector<triangle> vecTrianglesToRaster;
+		// Store triagles for rastering later
+		vector<triangle> vecTrianglesToRaster;
+		DrawTrianglesFromMesh(meshCube, matWorld, matView, &vecTrianglesToRaster);
 
-			DrawTrianglesFromMesh(meshCube, matWorld, matView, &vecTrianglesToRaster);
+		// Sort triangles from back to front
+		/*sort(vecTrianglesToRaster.begin(), vecTrianglesToRaster.end(), [](triangle &t1, triangle &t2)
+		{
+			float z1 = (t1.p[0].z + t1.p[1].z + t1.p[2].z) / 3.0f;
+			float z2 = (t2.p[0].z + t2.p[1].z + t2.p[2].z) / 3.0f;
+			return z1 > z2;
+		});*/
 
-			// Sort triangles from back to front
-			/*sort(vecTrianglesToRaster.begin(), vecTrianglesToRaster.end(), [](triangle &t1, triangle &t2)
-			{
-				float z1 = (t1.p[0].z + t1.p[1].z + t1.p[2].z) / 3.0f;
-				float z2 = (t2.p[0].z + t2.p[1].z + t2.p[2].z) / 3.0f;
-				return z1 > z2;
-			});*/
+		// Clear Screen
+		Fill(0, 0, ScreenWidth(), ScreenHeight(), PIXEL_SOLID, FG_CYAN);
 
-			// Clear Screen
-			Fill(0, 0, ScreenWidth(), ScreenHeight(), PIXEL_SOLID, FG_CYAN);
+		// Clear Depth Buffer
+		for (int i = 0; i < ScreenWidth() * ScreenHeight(); i++)
+			pDepthBuffer[i] = 0.0f;
 
-			// Clear Depth Buffer
-			for (int i = 0; i < ScreenWidth() * ScreenHeight(); i++)
-				pDepthBuffer[i] = 0.0f;
+		DrawRasterizedTriangles(vecTrianglesToRaster);
 
-			DrawRasterizedTriangles(vecTrianglesToRaster);
+		return true;
+	}
 
-			return true;
-		}
-
-		void DrawTrianglesFromMesh(mesh meshCube, mat4x4 matWorld, mat4x4 matView, vector<triangle>* vecTrianglesToRaster)
+	void DrawTrianglesFromMesh(mesh meshCube, mat4x4 matWorld, mat4x4 matView, vector<triangle>* vecTrianglesToRaster)
 		{
 			// Draw Triangles
 			for (auto& tri : meshCube.tris)
@@ -778,7 +777,7 @@ protected :
 			}
 		}
 
-		void DrawRasterizedTriangles(vector<triangle>& vecTrianglesToRaster)
+	void DrawRasterizedTriangles(vector<triangle>& vecTrianglesToRaster)
 		{
 			// Loop through all transformed, viewed, projected, and sorted triangles
 			for (auto& triToRaster : vecTrianglesToRaster)
@@ -839,10 +838,10 @@ protected :
 			}
 		}
 
-		void TexturedTriangle(int x1, int y1, float u1, float v1, float w1,
-			int x2, int y2, float u2, float v2, float w2,
-			int x3, int y3, float u3, float v3, float w3,
-			olcSprite* tex)
+	void TexturedTriangle(int x1, int y1, float u1, float v1, float w1,
+		int x2, int y2, float u2, float v2, float w2,
+		int x3, int y3, float u3, float v3, float w3,
+		olcSprite* tex)
 		{
 			if (y2 < y1)
 			{
@@ -1008,3 +1007,5 @@ protected :
 			}
 		}
 };
+
+#endif

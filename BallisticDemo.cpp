@@ -1,9 +1,6 @@
 
 #include <App.cpp>
 
-using namespace std;
-
-
 class BulletDemo : public App 
 {
 private:

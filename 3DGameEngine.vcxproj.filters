@@ -36,6 +36,9 @@
     <ClCompile Include="demos\Firework.cpp">
       <Filter>Source Files\dynahex\demos</Filter>
     </ClCompile>
+    <ClCompile Include="FireworkDemo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="olcConsoleGameEngine.h">
@@ -57,6 +60,9 @@
       <Filter>Header Files\dynahex</Filter>
     </ClInclude>
     <ClInclude Include="App.cpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="App.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
