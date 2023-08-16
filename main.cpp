@@ -1,5 +1,5 @@
 
-#include <App.cpp>
+#include "App.cpp"
 
 class BulletDemo : public App 
 {
@@ -59,6 +59,11 @@ private:
 	}
 
 public:
+	BulletDemo() 
+	{
+		m_sAppName = L"Bullet Demo";
+	}
+
 	bool OnUserCreate() override 
 	{
 		App::OnUserCreate();
@@ -97,9 +102,28 @@ public:
 	}
 };
 
+class FireworkDemo : public App {
+public:
+	FireworkDemo() 
+	{
+		m_sAppName = L"Firework Demo";
+	}
+
+	bool OnUserCreate() override
+	{
+		return App::OnUserCreate();
+	}
+
+	bool OnUserUpdate(float fElapsedTime) override 
+	{
+		return App::OnUserUpdate(fElapsedTime);
+	}
+
+};
+
 int main()
 {
-	BulletDemo demo;
+	FireworkDemo demo;
 	if (demo.ConstructConsole(256, 240, 4, 4))
 		demo.Start();
 	return 0;

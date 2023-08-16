@@ -1,35 +1,17 @@
-﻿  BallisticDemo.cpp
+﻿  main.cpp
 D:\Proyects\3DGameEngine\olcConsoleGameEngine.h(759,13): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
 D:\Proyects\3DGameEngine\olcConsoleGameEngine.h(1099,31): warning C4267: 'return': conversion from 'size_t' to 'unsigned int', possible loss of data
 D:\Proyects\3DGameEngine\olcConsoleGameEngine.h(1196,4): warning C4312: 'type cast': conversion from 'DWORD' to 'olcConsoleGameEngine *' of greater size
-D:\Proyects\3DGameEngine\App.cpp(829,40): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-D:\Proyects\3DGameEngine\App.cpp(840,75): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-D:\Proyects\3DGameEngine\App.cpp(840,65): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-D:\Proyects\3DGameEngine\App.cpp(840,55): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-D:\Proyects\3DGameEngine\App.cpp(840,45): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-D:\Proyects\3DGameEngine\App.cpp(840,35): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-D:\Proyects\3DGameEngine\App.cpp(840,25): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-D:\Proyects\3DGameEngine\App.cpp(912,13): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\Proyects\3DGameEngine\App.cpp(913,13): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\Proyects\3DGameEngine\App.cpp(972,13): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\Proyects\3DGameEngine\App.cpp(973,13): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\Proyects\3DGameEngine\App.cpp(522): warning C4715: 'App::Triangle_ClipAgainstPlane': not all control paths return a value
-  FireworkDemo.cpp
-D:\Proyects\3DGameEngine\olcConsoleGameEngine.h(759,13): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\Proyects\3DGameEngine\olcConsoleGameEngine.h(1099,31): warning C4267: 'return': conversion from 'size_t' to 'unsigned int', possible loss of data
-D:\Proyects\3DGameEngine\olcConsoleGameEngine.h(1196,4): warning C4312: 'type cast': conversion from 'DWORD' to 'olcConsoleGameEngine *' of greater size
-D:\Proyects\3DGameEngine\App.cpp(829,40): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-D:\Proyects\3DGameEngine\App.cpp(840,75): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-D:\Proyects\3DGameEngine\App.cpp(840,65): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-D:\Proyects\3DGameEngine\App.cpp(840,55): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-D:\Proyects\3DGameEngine\App.cpp(840,45): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-D:\Proyects\3DGameEngine\App.cpp(840,35): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-D:\Proyects\3DGameEngine\App.cpp(840,25): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-D:\Proyects\3DGameEngine\App.cpp(912,13): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\Proyects\3DGameEngine\App.cpp(913,13): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\Proyects\3DGameEngine\App.cpp(972,13): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\Proyects\3DGameEngine\App.cpp(973,13): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-FireworkDemo.obj : error LNK2005: "protected: static struct std::atomic<bool> olcConsoleGameEngine::m_bAtomActive" (?m_bAtomActive@olcConsoleGameEngine@@1U?$atomic@_N@std@@A) already defined in BallisticDemo.obj
-FireworkDemo.obj : error LNK2005: "protected: static class std::condition_variable olcConsoleGameEngine::m_cvGameFinished" (?m_cvGameFinished@olcConsoleGameEngine@@1Vcondition_variable@std@@A) already defined in BallisticDemo.obj
-FireworkDemo.obj : error LNK2005: "protected: static class std::mutex olcConsoleGameEngine::m_muxGame" (?m_muxGame@olcConsoleGameEngine@@1Vmutex@std@@A) already defined in BallisticDemo.obj
-D:\Proyects\3DGameEngine\x64\Debug\3DGameEngine.exe : fatal error LNK1169: one or more multiply defined symbols found
+D:\Proyects\3DGameEngine\App.cpp(635,38): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+D:\Proyects\3DGameEngine\App.cpp(646,73): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+D:\Proyects\3DGameEngine\App.cpp(646,63): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+D:\Proyects\3DGameEngine\App.cpp(646,53): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+D:\Proyects\3DGameEngine\App.cpp(646,43): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+D:\Proyects\3DGameEngine\App.cpp(646,33): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+D:\Proyects\3DGameEngine\App.cpp(646,23): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+D:\Proyects\3DGameEngine\App.cpp(718,11): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\Proyects\3DGameEngine\App.cpp(719,11): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\Proyects\3DGameEngine\App.cpp(778,11): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\Proyects\3DGameEngine\App.cpp(779,11): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\Proyects\3DGameEngine\App.cpp(332): warning C4715: 'App::Triangle_ClipAgainstPlane': not all control paths return a value
+  3DGameEngine.vcxproj -> D:\Proyects\3DGameEngine\x64\Debug\3DGameEngine.exe

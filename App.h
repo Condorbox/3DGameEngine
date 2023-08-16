@@ -1,10 +1,10 @@
 #pragma once
 
-#ifndef APP_H
-#define APP_H
-
 #include "olcConsoleGameEngine.h"
 #include "dynahex/dynahex.h"
+#include <fstream>
+#include <strstream>
+#include <string>
 
 using namespace std;
 
@@ -223,4 +223,3 @@ public:
 		int x3, int y3, float u3, float v3, float w3,
 		olcSprite* tex);
 };
-#endif

@@ -24,7 +24,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BallisticDemo.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="particle.cpp">
@@ -35,9 +35,6 @@
     </ClCompile>
     <ClCompile Include="demos\Firework.cpp">
       <Filter>Source Files\dynahex\demos</Filter>
-    </ClCompile>
-    <ClCompile Include="FireworkDemo.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
