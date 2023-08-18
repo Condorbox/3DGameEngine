@@ -105,8 +105,14 @@ public:
 
 class FireworkDemo : public App {
 private:
+	struct FireworkData
+	{
+		Firework firework;
+		mesh fireworkMesh;
+	};
+
 	const static unsigned maxFireworks = 256;
-	Firework fireworks[maxFireworks];
+	FireworkData fireworks[maxFireworks];
 	unsigned nextFirework;
 	const static unsigned ruleCount = 9;
 	FireworkRule rules[ruleCount];
@@ -117,7 +123,7 @@ private:
 		FireworkRule* rule = rules + (type - 1);
 
 		// Create the firework
-		rule->create(fireworks + nextFirework, parent);
+		rule->create(&fireworks[nextFirework].firework, parent);
 
 		// Increment the index for the next firework
 		nextFirework = (nextFirework + 1) % maxFireworks;
@@ -240,22 +246,22 @@ private:
 
 	void UpdateFireworks(float fElapsedTime) 
 	{
-		for (Firework* firework = fireworks; firework < fireworks + maxFireworks; firework++)
+		for (auto* firework = fireworks; firework < fireworks + maxFireworks; firework++)
 		{
 			// Check if we need to process this firework && Does it need removing?
-			if (firework->type > 0 && firework->update(fElapsedTime))
+			if (firework->firework.type > 0 && firework->firework.update(fElapsedTime))
 			{
 				// Find the appropriate rule
-				FireworkRule* rule = rules + (firework->type - 1);
+				FireworkRule* rule = rules + (firework->firework.type - 1);
 
 				// Delete the current firework
-				firework->type = 0;
+				firework->firework.type = 0;
 
 				// Add the payload
 				for (unsigned i = 0; i < rule->payloadCount; i++)
 				{
 					FireworkRule::Payload* payload = rule->payloads + i;
-					create(payload->type, payload->count, firework);
+					create(payload->type, payload->count, &firework->firework);
 				}
 			}
 		}
@@ -308,11 +314,9 @@ public:
 		m_sAppName = L"Firework Demo";
 
 		// Make all shots unused
-		for (Firework* firework = fireworks;
-			firework < fireworks + maxFireworks;
-			firework++)
+		for (FireworkData* firework = fireworks; firework < fireworks + maxFireworks;firework++)
 		{
-			firework->type = 0;
+			firework->firework.type = 0;
 		}
 
 		// Create the firework types
@@ -322,32 +326,106 @@ public:
 
 	bool OnUserCreate() override
 	{
-		return App::OnUserCreate();
+		for (auto firework : fireworks)
+		{
+			firework.fireworkMesh.LoadBox(0.15f);
+		}
+
+		pDepthBuffer = new float[ScreenWidth() * ScreenHeight()];
+		// Projection Matrix
+		matProj = Matrix_MakeProjection(90.0f, (float)ScreenHeight() / (float)ScreenWidth(), 0.1f, 1000.0f);
+		return true;
 	}
 
 	bool OnUserUpdate(float fElapsedTime) override 
 	{
-		UpdateFireworks(fElapsedTime);
+		if (GetKey(VK_UP).bHeld)
+			vCamera.y += 8.0f * fElapsedTime;	// Travel Upwards
 
+		if (GetKey(VK_DOWN).bHeld)
+			vCamera.y -= 8.0f * fElapsedTime;	// Travel Downwards
+
+
+		// Dont use these two in FPS mode, it is confusing :P
+		if (GetKey(VK_LEFT).bHeld)
+			vCamera.x -= 8.0f * fElapsedTime;	// Travel Along X-Axis
+
+		if (GetKey(VK_RIGHT).bHeld)
+			vCamera.x += 8.0f * fElapsedTime;	// Travel Along X-Axis
+		///////
+
+
+		vec3d vForward = Vector_Mul(vLookDir, 8.0f * fElapsedTime);
+
+		// Standard FPS Control scheme, but turn instead of strafe
+		if (GetKey(L'W').bHeld)
+			vCamera = Vector_Add(vCamera, vForward);
+
+		if (GetKey(L'S').bHeld)
+			vCamera = Vector_Sub(vCamera, vForward);
+
+		if (GetKey(L'A').bHeld)
+			fYaw -= 2.0f * fElapsedTime;
+
+		if (GetKey(L'D').bHeld)
+			fYaw += 2.0f * fElapsedTime;
+
+		// Set up "World Tranmsform" though not updating theta 
+		// makes this a bit redundant
+		mat4x4 matRotZ, matRotX;
+		//fTheta += 1.0f * fElapsedTime; // Uncomment to spin me right round baby right round
+		matRotZ = Matrix_MakeRotationZ(fTheta * 0.5f);
+		matRotX = Matrix_MakeRotationX(fTheta);
+
+		mat4x4 matTrans;
+		matTrans = Matrix_MakeTranslation(0.0f, 0.0f, 5.0f);
+
+		mat4x4 matWorld;
+		matWorld = Matrix_MakeIdentity();	// Form World Matrix
+		matWorld = Matrix_MultiplyMatrix(matRotZ, matRotX); // Transform by rotation
+		matWorld = Matrix_MultiplyMatrix(matWorld, matTrans); // Transform by translation
+
+		// Create "Point At" Matrix for camera
+		vec3d vUp = { 0,1,0 };
+		vec3d vTarget = { 0,0,1 };
+		mat4x4 matCameraRot = Matrix_MakeRotationY(fYaw);
+		vLookDir = Matrix_MultiplyVector(matCameraRot, vTarget);
+		vTarget = Vector_Add(vCamera, vLookDir);
+		mat4x4 matCamera = Matrix_PointAt(vCamera, vTarget, vUp);
+
+		// Make view matrix from camera
+		mat4x4 matView = Matrix_QuickInverse(matCamera);
+
+		// Store triagles for rastering later
+		vector<triangle> vecTrianglesToRaster;
+
+		// UpdateFireworks(fElapsedTime);
 		GetKeys();
 
-		for (Firework* firework = fireworks; firework < fireworks + maxFireworks; firework++)
+		for (int i = 0; i < maxFireworks; i++)
 		{
-			if (firework->type > 0)
+			auto firework = fireworks[i];
+			firework.firework.update(fElapsedTime);
+			if (firework.firework.type > 0)
 			{
-				switch (firework->type) 
-				{
-					//TODO
-				}
-
-				const dynahex::Vector3& pos = firework->getPosition();
+				const dynahex::Vector3& pos = firework.firework.getPosition();
 				vec3d moveVector = vec3d::ConvertVector3ToVec3d(pos);
 				moveVector.MultiplyConst(0.15f);
-				meshCube.MoveMesh(moveVector);
+				firework.fireworkMesh.LoadBox();
+				firework.fireworkMesh.MoveMesh(moveVector);
 			}
+			DrawTrianglesFromMesh(firework.fireworkMesh, matWorld, matView, &vecTrianglesToRaster);
 		}
 
-		return App::OnUserUpdate(fElapsedTime);
+		Fill(0, 0, ScreenWidth(), ScreenHeight(), PIXEL_SOLID, FG_CYAN);
+
+		// Clear Depth Buffer
+		for (int i = 0; i < ScreenWidth() * ScreenHeight(); i++)
+			pDepthBuffer[i] = 0.0f;
+
+		DrawRasterizedTriangles(vecTrianglesToRaster);
+
+		return true;
 	}
 
 };
