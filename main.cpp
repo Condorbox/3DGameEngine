@@ -1,6 +1,6 @@
 
 #include "App.cpp"
-#include <demos/Firework.cpp>
+#include "demos/Firework.cpp"
 
 class BulletDemo : public App 
 {

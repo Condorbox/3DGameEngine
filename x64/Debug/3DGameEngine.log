@@ -1,26 +1,8 @@
-﻿  main.cpp
-D:\Proyects\3DGameEngine\olcConsoleGameEngine.h(759,13): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\Proyects\3DGameEngine\olcConsoleGameEngine.h(1099,31): warning C4267: 'return': conversion from 'size_t' to 'unsigned int', possible loss of data
-D:\Proyects\3DGameEngine\olcConsoleGameEngine.h(1196,4): warning C4312: 'type cast': conversion from 'DWORD' to 'olcConsoleGameEngine *' of greater size
-D:\Proyects\3DGameEngine\App.cpp(635,38): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-D:\Proyects\3DGameEngine\App.cpp(646,73): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-D:\Proyects\3DGameEngine\App.cpp(646,63): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-D:\Proyects\3DGameEngine\App.cpp(646,53): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-D:\Proyects\3DGameEngine\App.cpp(646,43): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-D:\Proyects\3DGameEngine\App.cpp(646,33): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-D:\Proyects\3DGameEngine\App.cpp(646,23): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-D:\Proyects\3DGameEngine\App.cpp(718,11): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\Proyects\3DGameEngine\App.cpp(719,11): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\Proyects\3DGameEngine\App.cpp(778,11): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\Proyects\3DGameEngine\App.cpp(779,11): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\Proyects\3DGameEngine\main.cpp(149,4): warning C4305: 'argument': truncation from 'double' to 'dynahex::real'
-D:\Proyects\3DGameEngine\main.cpp(160,4): warning C4305: 'argument': truncation from 'double' to 'dynahex::real'
-D:\Proyects\3DGameEngine\main.cpp(170,4): warning C4305: 'argument': truncation from 'double' to 'dynahex::real'
-D:\Proyects\3DGameEngine\main.cpp(179,4): warning C4305: 'argument': truncation from 'double' to 'dynahex::real'
-D:\Proyects\3DGameEngine\main.cpp(188,4): warning C4305: 'argument': truncation from 'double' to 'dynahex::real'
-D:\Proyects\3DGameEngine\main.cpp(198,4): warning C4305: 'argument': truncation from 'double' to 'dynahex::real'
-D:\Proyects\3DGameEngine\main.cpp(207,4): warning C4305: 'argument': truncation from 'double' to 'dynahex::real'
-D:\Proyects\3DGameEngine\main.cpp(217,4): warning C4305: 'argument': truncation from 'double' to 'dynahex::real'
-D:\Proyects\3DGameEngine\main.cpp(226,4): warning C4305: 'argument': truncation from 'double' to 'dynahex::real'
-D:\Proyects\3DGameEngine\App.cpp(332): warning C4715: 'App::Triangle_ClipAgainstPlane': not all control paths return a value
-  3DGameEngine.vcxproj -> D:\Proyects\3DGameEngine\x64\Debug\3DGameEngine.exe
+﻿  core.cpp
+C:\Proyects\3DGameEngine\demos\core.cpp(2,10): fatal  error C1083: Cannot open include file: 'core.h': No such file or directory
+  Firework.cpp
+C:\Proyects\3DGameEngine\demos\Firework.cpp(2,10): fatal  error C1083: Cannot open include file: 'dynahex/random.h': No such file or directory
+  particle.cpp
+  random.cpp
+C:\Proyects\3DGameEngine\random.cpp(102,26): warning C4244: 'return': conversion from 'double' to 'dynahex::real', possible loss of data
+  Generating Code...
