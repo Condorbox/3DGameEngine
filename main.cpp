@@ -432,7 +432,7 @@ public:
 
 int main()
 {
-	FireworkDemo demo;
+	BulletDemo demo;
 	if (demo.ConstructConsole(256, 240, 4, 4))
 		demo.Start();
 	return 0;
