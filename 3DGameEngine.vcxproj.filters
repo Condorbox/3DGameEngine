@@ -54,6 +54,9 @@
     <ClCompile Include="src\random.cpp">
       <Filter>Source Files\dynahex</Filter>
     </ClCompile>
+    <ClCompile Include="demos\Blob.cpp">
+      <Filter>Source Files\dynahex\demos</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="olcConsoleGameEngine.h">

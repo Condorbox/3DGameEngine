@@ -1,6 +1,7 @@
 
 #include "App.cpp"
 #include "demos/Firework.cpp"
+#include "demos/Blob.cpp"
 
 class BulletDemo : public App 
 {
@@ -427,6 +428,10 @@ public:
 
 		return true;
 	}
+
+};
+
+class BlobDemo : public App {
 
 };
 

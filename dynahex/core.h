@@ -139,6 +139,12 @@ namespace dynahex {
             return {y * vector.z - z * vector.y, z * vector.x - x * vector.z, x * vector.y - y * vector.x};
         }
 
+        [[nodiscard]] Vector3 unit() const {
+            Vector3 result = *this;
+            result.normalize();
+            return result;
+        }
+
         void clear() {
             x = y = z = 0;
         }
