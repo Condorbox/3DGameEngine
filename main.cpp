@@ -432,12 +432,74 @@ public:
 };
 
 class BlobDemo : public App {
+	dynahex::Particle* blobs;
 
+	Plataform* platforms;
+
+	dynahex::ParticleWorld world;
+
+	BlobForceGenerator blobForceGenerator;
+
+	/* The control for the x-axis. */
+	float xAxis;
+
+	/* The control for the y-axis. */
+	float yAxis;
+
+public:
+	/** Creates a new demo object. */
+	BlobDemo() : xAxis(0), yAxis(0), world(PLATFORM_COUNT + BLOB_COUNT, PLATFORM_COUNT) {
+		m_sAppName = L"Blob Demo";
+
+		blobs = new dynahex::Particle[BLOB_COUNT];
+		dynahex::Random r;
+
+		// Create the force generator
+		blobForceGenerator.particles = blobs;
+		blobForceGenerator.maxAttraction = 20.0f;
+		blobForceGenerator.maxReplusion = 10.0f;
+		blobForceGenerator.minNaturalDistance = BLOB_RADIUS * 0.75f;
+		blobForceGenerator.maxNaturalDistance = BLOB_RADIUS * 1.5f;
+		blobForceGenerator.maxDistance = BLOB_RADIUS * 2.5f;
+		blobForceGenerator.maxFloat = 2;
+		blobForceGenerator.floatHead = 8.0f;
+
+		// Create the platforms
+		platforms = new Plataform[PLATFORM_COUNT];
+		for (unsigned i = 0; i < PLATFORM_COUNT; i++) {
+			platforms[i].start = dynahex::Vector3(dynahex::real(i % 2) * 10.0f - 5.0f, 
+				dynahex::real(i) * 4.0f + ((i % 2) ? 0.0f : 2.0f), 
+				0);
+
+			platforms[i].start.x += r.randomBinomial(2.0f);
+			platforms[i].start.y += r.randomBinomial(2.0f);
+
+			platforms[i].end = dynahex::Vector3(dynahex::real(i % 2) * 10.0f + 5.0f,
+				dynahex::real(i) * 4.0f + ((i % 2) ? 2.0f : 0.0f),
+				0);
+			platforms[i].end.x += r.randomBinomial(2.0f);
+			platforms[i].end.y += r.randomBinomial(2.0f);
+
+			// Make sure the platform knows which particles it should collide with.
+			platforms[i].particles = blobs;
+			// world.getContactGenerators().push_back(platforms + i);
+		}
+
+		// TODO Create the blobs.
+	}
+
+	bool OnUserCreate() override {
+		return App::OnUserCreate();
+	}
+
+	bool OnUserUpdate(float fElapsedTime) override {
+		return App::OnUserUpdate(fElapsedTime);
+	}
 };
 
 int main()
 {
-	BulletDemo demo;
+	BlobDemo demo;
 	if (demo.ConstructConsole(256, 240, 4, 4))
 		demo.Start();
 	return 0;

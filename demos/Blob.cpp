@@ -79,6 +79,7 @@ public:
 
 /** A force generator for proximal attraction. */
 class BlobForceGenerator : public dynahex::ParticleForceGenerator {
+public:
 	// Holds a pointer to the particles we might be attracting.
 	dynahex::Particle* particles;
 
