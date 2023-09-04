@@ -27,16 +27,31 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="particle.cpp">
-      <Filter>Source Files\dynahex</Filter>
-    </ClCompile>
-    <ClCompile Include="random.cpp">
-      <Filter>Source Files\dynahex</Filter>
-    </ClCompile>
     <ClCompile Include="demos\Firework.cpp">
       <Filter>Source Files\dynahex\demos</Filter>
     </ClCompile>
     <ClCompile Include="demos\core.cpp">
+      <Filter>Source Files\dynahex</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core.cpp">
+      <Filter>Source Files\dynahex</Filter>
+    </ClCompile>
+    <ClCompile Include="src\particle.cpp">
+      <Filter>Source Files\dynahex</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcontacts.cpp">
+      <Filter>Source Files\dynahex</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pfgen.cpp">
+      <Filter>Source Files\dynahex</Filter>
+    </ClCompile>
+    <ClCompile Include="src\plinks.cpp">
+      <Filter>Source Files\dynahex</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pworld.cpp">
+      <Filter>Source Files\dynahex</Filter>
+    </ClCompile>
+    <ClCompile Include="src\random.cpp">
       <Filter>Source Files\dynahex</Filter>
     </ClCompile>
   </ItemGroup>
@@ -64,6 +79,18 @@
     </ClInclude>
     <ClInclude Include="App.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dynahex\pcontacts.h">
+      <Filter>Header Files\dynahex</Filter>
+    </ClInclude>
+    <ClInclude Include="dynahex\pfgen.h">
+      <Filter>Header Files\dynahex</Filter>
+    </ClInclude>
+    <ClInclude Include="dynahex\plinks.h">
+      <Filter>Header Files\dynahex</Filter>
+    </ClInclude>
+    <ClInclude Include="dynahex\pworld.h">
+      <Filter>Header Files\dynahex</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

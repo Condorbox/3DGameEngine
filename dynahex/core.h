@@ -30,6 +30,7 @@ namespace dynahex {
         const static Vector3 X;
         const static Vector3 Y;
         const static Vector3 Z;
+        const static Vector3 Zero;
 
         real operator[](unsigned i) const {
             if (i == 0) return x;
@@ -53,6 +54,11 @@ namespace dynahex {
 
         Vector3 operator*(const real value) const {
             return {x * value, y * value, z * value};
+        }
+
+        Vector3 operator/(const real value) const {
+            if (value == (real)0.0) return {0, 0, 0};
+            return {x / value, y / value, z * value};
         }
 
         //Calculates and returns the scalar product

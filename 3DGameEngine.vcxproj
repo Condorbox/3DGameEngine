@@ -139,8 +139,13 @@
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Proyects\3DGameEngine</AdditionalIncludeDirectories>
     </ClCompile>
     <ClCompile Include="demos\Firework.cpp" />
-    <ClCompile Include="particle.cpp" />
-    <ClCompile Include="random.cpp" />
+    <ClCompile Include="src\core.cpp" />
+    <ClCompile Include="src\particle.cpp" />
+    <ClCompile Include="src\pcontacts.cpp" />
+    <ClCompile Include="src\pfgen.cpp" />
+    <ClCompile Include="src\plinks.cpp" />
+    <ClCompile Include="src\pworld.cpp" />
+    <ClCompile Include="src\random.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.cpp" />
@@ -148,7 +153,11 @@
     <ClInclude Include="dynahex\core.h" />
     <ClInclude Include="dynahex\dynahex.h" />
     <ClInclude Include="dynahex\particle.h" />
+    <ClInclude Include="dynahex\pcontacts.h" />
+    <ClInclude Include="dynahex\pfgen.h" />
+    <ClInclude Include="dynahex\plinks.h" />
     <ClInclude Include="dynahex\precision.h" />
+    <ClInclude Include="dynahex\pworld.h" />
     <ClInclude Include="dynahex\random.h" />
     <ClInclude Include="olcConsoleGameEngine.h" />
   </ItemGroup>

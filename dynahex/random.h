@@ -5,7 +5,7 @@
 #ifndef DYNAHEX_RANDOM_H
 #define DYNAHEX_RANDOM_H
 
-#include "core.h"
+#include "dynahex/core.h"
 
 namespace dynahex {
     class Random {
