@@ -5,12 +5,24 @@
 
 using namespace dynahex;
 
-void dynahex::ParticleForceRegistry::add(Particle* particle, ParticleForceGenerator* fg)
-{
+void dynahex::ParticleForceRegistry::add(Particle* particle, ParticleForceGenerator* fg) {
     ParticleForceRegistry::ParticleForceRegistration registration;
     registration.particle = particle;
     registration.fg = fg;
     registrations.push_back(registration);
+}
+
+void dynahex::ParticleForceRegistry::remove(Particle* particle, ParticleForceGenerator* fg) {
+    for (auto it = registrations.begin(); it != registrations.end(); ++it) {
+        if (it->particle == particle && it->fg == fg) {
+            registrations.erase(it);
+            return;
+        }
+    }
+}
+
+void dynahex::ParticleForceRegistry::clear() {
+    registrations.clear();
 }
 
 void ParticleForceRegistry::updateForces(dynahex::real duration) {

@@ -505,11 +505,95 @@ public:
 		}
 	}
 
+	void reset() {
+		dynahex::Random r;
+		Platform* p = platforms + (PLATFORM_COUNT - 2);
+		dynahex::real fraction = (dynahex::real)1.0 / BLOB_COUNT;
+		dynahex::Vector3 delta = p->end - p->start;
+		for (unsigned i = 0; i < BLOB_COUNT; i++) {
+			unsigned me = (i + BLOB_COUNT / 2) % BLOB_COUNT;
+			blobs[i].setPosition(p->start + delta * (dynahex::real(me) * 0.8f * fraction + 0.1f) + dynahex::Vector3(0, 1.0f + r.randomReal(), 0));
+			blobs[i].setVelocity(0, 0, 0);
+			blobs[i].clearAccumulator();
+		}
+	}
+
+	~BlobDemo() {
+		delete blobs;
+	}
+
+	void moveAxis(unsigned char key) {
+		switch (key)
+		{
+		case 'i':
+			yAxis = 1.0;
+			break;
+		case 'k':
+			yAxis = -1.0;
+			break;
+		case 'j':
+			xAxis = -1.0f;
+			break;
+		case 'l':
+			xAxis = 1.0f;
+			break;
+		case 'r': 
+			reset();
+			break;
+		default:
+			break;
+		}
+	}
+
+	void getKeys() {
+		if (GetKey(L'I').bHeld) {
+			moveAxis('i');
+		}
+		else if (GetKey(L'K').bHeld) {
+			moveAxis('k');
+		}
+		else if (GetKey(L'L').bHeld) {
+			moveAxis('l');
+		}
+		else if (GetKey(L'J').bHeld) {
+			moveAxis('j');
+		}
+		else if (GetKey(L'R').bHeld) {
+			moveAxis('r');
+		}
+	}
+
+	void display() {
+		dynahex::Vector3 position = blobs[0].getPosition();
+		vec3d movePos = vec3d::ConvertVector3ToVec3d(position);
+		meshCube.MoveMesh(movePos);
+	}
+
 	bool OnUserCreate() override {
 		return App::OnUserCreate();
 	}
 
 	bool OnUserUpdate(float fElapsedTime) override {
+
+		world.startFrame();
+
+		xAxis *= pow(0.1f, fElapsedTime);
+		yAxis *= pow(0.1f, fElapsedTime);
+
+		blobs[0].addForce(dynahex::Vector3(xAxis, yAxis, 0) * 10.0f);
+		world.runPhysics(fElapsedTime);
+		dynahex::Vector3 position;
+
+		for (unsigned i = 0; i < BLOB_COUNT; i++) {
+			blobs[i].getPosition(&position);
+			position.z = 0.0f;
+			blobs[i].setPosition(position);
+		}
+
+		getKeys();
+
+		display();
+
 		return App::OnUserUpdate(fElapsedTime);
 	}
 };
