@@ -1,5 +1,9 @@
 ﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(1116,5): warning MSB8027: Two or more files with the name of core.cpp will produce outputs to the same location. This can lead to an incorrect build result.  The files involved are demos\core.cpp, src\core.cpp.
   Blob.cpp
+  pfgen.cpp
+C:\Proyects\3DGameEngine\src\pfgen.cpp(61,29): warning C4244: 'initializing': conversion from 'double' to 'dynahex::real', possible loss of data
+  pworld.cpp
+  Generating Code...
   main.cpp
 C:\Proyects\3DGameEngine\olcConsoleGameEngine.h(759,13): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
 C:\Proyects\3DGameEngine\olcConsoleGameEngine.h(1099,31): warning C4267: 'return': conversion from 'size_t' to 'unsigned int', possible loss of data
@@ -25,5 +29,4 @@ C:\Proyects\3DGameEngine\main.cpp(208,4): warning C4305: 'argument': truncation 
 C:\Proyects\3DGameEngine\main.cpp(218,4): warning C4305: 'argument': truncation from 'double' to 'dynahex::real'
 C:\Proyects\3DGameEngine\main.cpp(227,4): warning C4305: 'argument': truncation from 'double' to 'dynahex::real'
 C:\Proyects\3DGameEngine\App.cpp(332): warning C4715: 'App::Triangle_ClipAgainstPlane': not all control paths return a value
-x64\Debug\core.obj : warning LNK4042: object specified more than once; extras ignored
   3DGameEngine.vcxproj -> C:\Proyects\3DGameEngine\x64\Debug\3DGameEngine.exe

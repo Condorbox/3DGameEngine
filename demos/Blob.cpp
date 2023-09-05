@@ -5,7 +5,7 @@
 #define PLATFORM_COUNT 10
 #define BLOB_RADIUS 0.4f
 
-class Plataform : dynahex::ParticleContactGenerator {
+class Platform : public dynahex::ParticleContactGenerator {
 public:
 	dynahex::Vector3 start;
 	dynahex::Vector3 end;

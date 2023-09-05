@@ -434,7 +434,7 @@ public:
 class BlobDemo : public App {
 	dynahex::Particle* blobs;
 
-	Plataform* platforms;
+	Platform* platforms;
 
 	dynahex::ParticleWorld world;
 
@@ -465,7 +465,7 @@ public:
 		blobForceGenerator.floatHead = 8.0f;
 
 		// Create the platforms
-		platforms = new Plataform[PLATFORM_COUNT];
+		platforms = new Platform[PLATFORM_COUNT];
 		for (unsigned i = 0; i < PLATFORM_COUNT; i++) {
 			platforms[i].start = dynahex::Vector3(dynahex::real(i % 2) * 10.0f - 5.0f, 
 				dynahex::real(i) * 4.0f + ((i % 2) ? 0.0f : 2.0f), 
@@ -482,10 +482,27 @@ public:
 
 			// Make sure the platform knows which particles it should collide with.
 			platforms[i].particles = blobs;
-			// world.getContactGenerators().push_back(platforms + i);
+			world.getContactGenerators().push_back(platforms + i);
 		}
 
-		// TODO Create the blobs.
+		// Create the blobs.
+		Platform* p = platforms + (PLATFORM_COUNT - 2);
+		dynahex::real fraction = (dynahex::real)1.0 / BLOB_COUNT;
+		dynahex::Vector3 delta = p->end - p->start;
+		for (unsigned i = 0; i < BLOB_COUNT; i++)
+		{
+			unsigned me = (i + BLOB_COUNT / 2) % BLOB_COUNT;
+			blobs[i].setPosition( p->start + delta * (dynahex::real(me) * 0.8f * fraction + 0.1f) + dynahex::Vector3(0, 1.0f + r.randomReal(), 0));
+
+			blobs[i].setVelocity(0, 0, 0);
+			blobs[i].setDamping(0.2f);
+			blobs[i].setAcceleration(dynahex::Vector3::GRAVITY * 0.4f);
+			blobs[i].setMass(1.0f);
+			blobs[i].clearAccumulator();
+
+			world.getParticles().push_back(blobs + i);
+			world.getForceRegistry().add(blobs + i, &blobForceGenerator);
+		}
 	}
 
 	bool OnUserCreate() override {

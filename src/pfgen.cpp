@@ -1,8 +1,17 @@
 
 #include <dynaHex/pfgen.h>
 #include <algorithm>
+#include "pfgen.h"
 
 using namespace dynahex;
+
+void dynahex::ParticleForceRegistry::add(Particle* particle, ParticleForceGenerator* fg)
+{
+    ParticleForceRegistry::ParticleForceRegistration registration;
+    registration.particle = particle;
+    registration.fg = fg;
+    registrations.push_back(registration);
+}
 
 void ParticleForceRegistry::updateForces(dynahex::real duration) {
     Registry::iterator i = registrations.begin();
