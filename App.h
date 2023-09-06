@@ -33,6 +33,13 @@ struct vec3d
 		y *= k;
 		z *= k;
 	}
+
+	void reset() {
+		x = 0;
+		y = 0;
+		z = 0;
+		w = 1;
+	}
 };
 
 struct triangle

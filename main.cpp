@@ -436,6 +436,9 @@ class BlobDemo : public App {
 
 	Platform* platforms;
 
+	mesh meshesBlob[BLOB_COUNT];
+	mesh meshesPlatform[PLATFORM_COUNT];
+
 	dynahex::ParticleWorld world;
 
 	BlobForceGenerator blobForceGenerator;
@@ -446,10 +449,14 @@ class BlobDemo : public App {
 	/* The control for the y-axis. */
 	float yAxis;
 
+	vec3d cameraAddVector;
+
 public:
 	/** Creates a new demo object. */
 	BlobDemo() : xAxis(0), yAxis(0), world(PLATFORM_COUNT + BLOB_COUNT, PLATFORM_COUNT) {
 		m_sAppName = L"Blob Demo";
+
+		cameraAddVector.reset();
 
 		blobs = new dynahex::Particle[BLOB_COUNT];
 		dynahex::Random r;
@@ -563,17 +570,103 @@ public:
 		}
 	}
 
-	void display() {
-		dynahex::Vector3 position = blobs[0].getPosition();
-		vec3d movePos = vec3d::ConvertVector3ToVec3d(position);
-		meshCube.MoveMesh(movePos);
+	void display(mat4x4 matWorld, mat4x4 matView, vector<triangle> vecTrianglesToRaster) {
+		vCamera = vec3d::ConvertVector3ToVec3d(blobs[0].getPosition());
+
+		for (unsigned i = 0; i < PLATFORM_COUNT; i++) {
+			const dynahex::Vector3& p0 = platforms[i].start;
+			const dynahex::Vector3& p1 = platforms[i].end;
+
+			vec3d platPos = vec3d::ConvertVector3ToVec3d(p1 - p0);
+			meshesPlatform[i].MoveMesh(platPos);
+
+			DrawTrianglesFromMesh(meshesPlatform[i], matWorld, matView, &vecTrianglesToRaster);
+		}
+
+		for (unsigned i = 0; i < BLOB_COUNT; i++) {
+			vec3d blobPos = vec3d::ConvertVector3ToVec3d(blobs[i].getPosition());
+			meshesBlob[i].MoveMesh(blobPos);
+
+			DrawTrianglesFromMesh(meshesBlob[i], matWorld, matView, &vecTrianglesToRaster);
+		}
 	}
 
 	bool OnUserCreate() override {
-		return App::OnUserCreate();
+		for (unsigned i = 0; i < BLOB_COUNT; i++) {
+			meshesBlob[i].LoadBox(.3f);
+		}
+
+		for (unsigned i = 0; i < PLATFORM_COUNT; i++) {
+			meshesPlatform[i].LoadBox(.15f);
+		}
+
+		pDepthBuffer = new float[ScreenWidth() * ScreenHeight()];
+		// Projection Matrix
+		matProj = Matrix_MakeProjection(90.0f, (float)ScreenHeight() / (float)ScreenWidth(), 0.1f, 1000.0f);
+		return true;
 	}
 
 	bool OnUserUpdate(float fElapsedTime) override {
+
+		if (GetKey(VK_UP).bHeld)
+			cameraAddVector.y += 8.0f * fElapsedTime;	// Travel Upwards
+
+		if (GetKey(VK_DOWN).bHeld)
+			cameraAddVector.y -= 8.0f * fElapsedTime;	// Travel Downwards
+
+
+		// Dont use these two in FPS mode, it is confusing :P
+		if (GetKey(VK_LEFT).bHeld)
+			cameraAddVector.x -= 8.0f * fElapsedTime;	// Travel Along X-Axis
+
+		if (GetKey(VK_RIGHT).bHeld)
+			cameraAddVector.x += 8.0f * fElapsedTime;	// Travel Along X-Axis
+		///////
+
+
+		vec3d vForward = Vector_Mul(vLookDir, 8.0f * fElapsedTime);
+
+		// Standard FPS Control scheme, but turn instead of strafe
+		if (GetKey(L'W').bHeld)
+			cameraAddVector = Vector_Add(vCamera, vForward);
+
+		if (GetKey(L'S').bHeld)
+			cameraAddVector = Vector_Sub(vCamera, vForward);
+
+		if (GetKey(L'A').bHeld)
+			fYaw -= 2.0f * fElapsedTime;
+
+		if (GetKey(L'D').bHeld)
+			fYaw += 2.0f * fElapsedTime;
+
+		// Set up "World Tranmsform" though not updating theta 
+		// makes this a bit redundant
+		mat4x4 matRotZ, matRotX;
+		//fTheta += 1.0f * fElapsedTime; // Uncomment to spin me right round baby right round
+		matRotZ = Matrix_MakeRotationZ(fTheta * 0.5f);
+		matRotX = Matrix_MakeRotationX(fTheta);
+
+		mat4x4 matTrans;
+		matTrans = Matrix_MakeTranslation(0.0f, 0.0f, 5.0f);
+
+		mat4x4 matWorld;
+		matWorld = Matrix_MakeIdentity();	// Form World Matrix
+		matWorld = Matrix_MultiplyMatrix(matRotZ, matRotX); // Transform by rotation
+		matWorld = Matrix_MultiplyMatrix(matWorld, matTrans); // Transform by translation
+
+		// Create "Point At" Matrix for camera
+		vec3d vUp = { 0,1,0 };
+		vec3d vTarget = { 0,0,1 };
+		mat4x4 matCameraRot = Matrix_MakeRotationY(fYaw);
+		vLookDir = Matrix_MultiplyVector(matCameraRot, vTarget);
+		vTarget = Vector_Add(cameraAddVector, vLookDir);
+		mat4x4 matCamera = Matrix_PointAt(cameraAddVector, vTarget, vUp);
+
+		// Make view matrix from camera
+		mat4x4 matView = Matrix_QuickInverse(matCamera);
+
+		// Store triagles for rastering later
+		vector<triangle> vecTrianglesToRaster;
 
 		world.startFrame();
 
@@ -592,9 +685,19 @@ public:
 
 		getKeys();
 
-		display();
+		display(matWorld, matView, vecTrianglesToRaster);
 
-		return App::OnUserUpdate(fElapsedTime);
+		vCamera = Vector_Add(vCamera, cameraAddVector);
+
+		Fill(0, 0, ScreenWidth(), ScreenHeight(), PIXEL_SOLID, FG_CYAN);
+
+		// Clear Depth Buffer
+		for (int i = 0; i < ScreenWidth() * ScreenHeight(); i++)
+			pDepthBuffer[i] = 0.0f;
+
+		DrawRasterizedTriangles(vecTrianglesToRaster);
+
+		return true;
 	}
 };
 
