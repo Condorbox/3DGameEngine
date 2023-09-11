@@ -2,10 +2,13 @@ C:\Proyects\3DGameEngine\demos\Blob.cpp;C:\Proyects\3DGameEngine\x64\Debug\Blob.
 C:\Proyects\3DGameEngine\demos\core.cpp;C:\Proyects\3DGameEngine\x64\Debug\core.obj
 C:\Proyects\3DGameEngine\main.cpp;C:\Proyects\3DGameEngine\x64\Debug\main.obj
 C:\Proyects\3DGameEngine\demos\Firework.cpp;C:\Proyects\3DGameEngine\x64\Debug\Firework.obj
+C:\Proyects\3DGameEngine\src\body.cpp;C:\Proyects\3DGameEngine\x64\Debug\body.obj
 C:\Proyects\3DGameEngine\src\core.cpp;C:\Proyects\3DGameEngine\x64\Debug\core.obj
+C:\Proyects\3DGameEngine\src\fgen.cpp;C:\Proyects\3DGameEngine\x64\Debug\fgen.obj
 C:\Proyects\3DGameEngine\src\particle.cpp;C:\Proyects\3DGameEngine\x64\Debug\particle.obj
 C:\Proyects\3DGameEngine\src\pcontacts.cpp;C:\Proyects\3DGameEngine\x64\Debug\pcontacts.obj
 C:\Proyects\3DGameEngine\src\pfgen.cpp;C:\Proyects\3DGameEngine\x64\Debug\pfgen.obj
 C:\Proyects\3DGameEngine\src\plinks.cpp;C:\Proyects\3DGameEngine\x64\Debug\plinks.obj
 C:\Proyects\3DGameEngine\src\pworld.cpp;C:\Proyects\3DGameEngine\x64\Debug\pworld.obj
 C:\Proyects\3DGameEngine\src\random.cpp;C:\Proyects\3DGameEngine\x64\Debug\random.obj
+C:\Proyects\3DGameEngine\src\world.cpp;C:\Proyects\3DGameEngine\x64\Debug\world.obj

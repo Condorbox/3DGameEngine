@@ -140,19 +140,24 @@
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Proyects\3DGameEngine</AdditionalIncludeDirectories>
     </ClCompile>
     <ClCompile Include="demos\Firework.cpp" />
+    <ClCompile Include="src\body.cpp" />
     <ClCompile Include="src\core.cpp" />
+    <ClCompile Include="src\fgen.cpp" />
     <ClCompile Include="src\particle.cpp" />
     <ClCompile Include="src\pcontacts.cpp" />
     <ClCompile Include="src\pfgen.cpp" />
     <ClCompile Include="src\plinks.cpp" />
     <ClCompile Include="src\pworld.cpp" />
     <ClCompile Include="src\random.cpp" />
+    <ClCompile Include="src\world.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.cpp" />
     <ClInclude Include="App.h" />
+    <ClInclude Include="dynahex\body.h" />
     <ClInclude Include="dynahex\core.h" />
     <ClInclude Include="dynahex\dynahex.h" />
+    <ClInclude Include="dynahex\fgen.h" />
     <ClInclude Include="dynahex\particle.h" />
     <ClInclude Include="dynahex\pcontacts.h" />
     <ClInclude Include="dynahex\pfgen.h" />
@@ -160,6 +165,7 @@
     <ClInclude Include="dynahex\precision.h" />
     <ClInclude Include="dynahex\pworld.h" />
     <ClInclude Include="dynahex\random.h" />
+    <ClInclude Include="dynahex\world.h" />
     <ClInclude Include="olcConsoleGameEngine.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
