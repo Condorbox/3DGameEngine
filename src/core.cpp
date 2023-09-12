@@ -13,6 +13,22 @@ const Vector3 Vector3::X = Vector3(0, 1, 0);
 const Vector3 Vector3::Y = Vector3(1, 0, 0);
 const Vector3 Vector3::Z = Vector3(0, 0, 1);
 
+/*
+ * Definition of the sleep epsilon extern.
+ */
+real dynahex::sleepEpsilon = ((real)0.3);
+
+/*
+ * Functions to change sleepEpsilon.
+ */
+void dynahex::setSleepEpsilon(real value) {
+    dynahex::sleepEpsilon = value;
+}
+
+real dynahex::getSleepEpsilon() {
+    return dynahex::sleepEpsilon;
+}
+
 real Matrix4::getDeterminant() const {
     return data[8]*data[5]*data[2]+
            data[4]*data[9]*data[2]+

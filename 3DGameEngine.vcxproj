@@ -135,7 +135,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="demos\Blob.cpp" />
-    <ClCompile Include="demos\core.cpp" />
     <ClCompile Include="main.cpp">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Proyects\3DGameEngine</AdditionalIncludeDirectories>
     </ClCompile>

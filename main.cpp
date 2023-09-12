@@ -701,9 +701,173 @@ public:
 	}
 };
 
+class FlightSimDemo : public App {
+	dynahex::AeroControl left_wing;
+	dynahex::AeroControl right_wing;
+	dynahex::AeroControl rudder;
+	dynahex::Aero tail;
+	dynahex::RigidBody aircraft;
+	dynahex::ForceRegistry registry;
+	dynahex::Vector3 windspeed;
+
+	float left_wing_control;
+	float right_wing_control;
+	float rudder_control;
+
+	void resetPlane() {
+		aircraft.setPosition(0, 0, 0);
+		aircraft.setOrientation(1, 0, 0, 0);
+		aircraft.setVelocity(0, 0, 0);
+		aircraft.setRotation(0, 0, 0);
+	}
+public:
+	FlightSimDemo() : App(),  
+		right_wing(dynahex::Matrix3(0, 0, 0, -1, -0.5f, 0, 0, 0, 0),
+			dynahex::Matrix3(0, 0, 0, -0.995f, -0.5f, 0, 0, 0, 0),
+			dynahex::Matrix3(0, 0, 0, -1.005f, -0.5f, 0, 0, 0, 0),
+			dynahex::Vector3(-1.0f, 0.0f, 2.0f), &windspeed), 
+		
+		left_wing(dynahex::Matrix3(0, 0, 0, -1, -0.5f, 0, 0, 0, 0),
+				dynahex::Matrix3(0, 0, 0, -0.995f, -0.5f, 0, 0, 0, 0),
+				dynahex::Matrix3(0, 0, 0, -1.005f, -0.5f, 0, 0, 0, 0),
+				dynahex::Vector3(-1.0f, 0.0f, -2.0f), &windspeed),
+
+		rudder(dynahex::Matrix3(0, 0, 0, 0, 0, 0, 0, 0, 0),
+			dynahex::Matrix3(0, 0, 0, 0, 0, 0, 0.01f, 0, 0),
+			dynahex::Matrix3(0, 0, 0, 0, 0, 0, -0.01f, 0, 0),
+			dynahex::Vector3(2.0f, 0.5f, 0), &windspeed),
+
+		tail(dynahex::Matrix3(0, 0, 0, -1, -0.5f, 0, 0, 0, -0.1f),
+			dynahex::Vector3(2.0f, 0, 0), &windspeed),
+
+		left_wing_control(0), right_wing_control(0), rudder_control(0),
+
+		windspeed(0, 0, 0) {
+		// Set up the aircraft rigid body.
+		resetPlane();
+
+		aircraft.setMass(2.5f);
+		dynahex::Matrix3 it;
+		it.setBlockInertiaTensor(dynahex::Vector3(2, 1, 1), 1);
+		aircraft.setInertiaTensor(it);
+
+		aircraft.setDamping(0.8f, 0.8f);
+
+		aircraft.setAcceleration(dynahex::Vector3::GRAVITY);
+		aircraft.calculateDerivedData();
+
+		aircraft.setAwake();
+		aircraft.setCanSleep(false);
+
+		registry.add(&aircraft, &left_wing);
+		registry.add(&aircraft, &right_wing);
+		registry.add(&aircraft, &rudder);
+		registry.add(&aircraft, &tail);
+	}
+
+	~FlightSimDemo(){}
+
+	void key(unsigned char key)
+	{
+		switch (key)
+		{
+		case 'q': case 'Q':
+			rudder_control += 0.1f;
+			break;
+
+		case 'e': case 'E':
+			rudder_control -= 0.1f;
+			break;
+
+		case 'w': case 'W':
+			left_wing_control -= 0.1f;
+			right_wing_control -= 0.1f;
+			break;
+
+		case 's': case 'S':
+			left_wing_control += 0.1f;
+			right_wing_control += 0.1f;
+			break;
+
+		case 'd': case 'D':
+			left_wing_control -= 0.1f;
+			right_wing_control += 0.1f;
+			break;
+
+		case 'a': case 'A':
+			left_wing_control += 0.1f;
+			right_wing_control -= 0.1f;
+			break;
+
+		case 'x': case 'X':
+			left_wing_control = 0.0f;
+			right_wing_control = 0.0f;
+			rudder_control = 0.0f;
+			break;
+
+		case 'r': case 'R':
+			resetPlane();
+			break;
+
+		default:
+			break;
+		}
+
+		// Make sure the controls are in range
+		if (left_wing_control < -1.0f) left_wing_control = -1.0f;
+		else if (left_wing_control > 1.0f) left_wing_control = 1.0f;
+		if (right_wing_control < -1.0f) right_wing_control = -1.0f;
+		else if (right_wing_control > 1.0f) right_wing_control = 1.0f;
+		if (rudder_control < -1.0f) rudder_control = -1.0f;
+		else if (rudder_control > 1.0f) rudder_control = 1.0f;
+
+		// Update the control surfaces
+		left_wing.setControl(left_wing_control);
+		right_wing.setControl(right_wing_control);
+		rudder.setControl(rudder_control);
+	}
+
+	bool OnUserCreate() override {
+		return App::OnUserCreate();
+	}
+
+	bool OnUserUpdate(float fElapsedTime) {
+		// Find the duration of the last frame in seconds
+		float duration = (float)fElapsedTime * 0.001f;
+		if (duration <= 0.0f) return false;
+
+		// Start with no forces or acceleration.
+		aircraft.clearAccumulators();
+
+		// Add the propeller force
+		dynahex::Vector3 propulsion(-10.0f, 0, 0);
+		propulsion = aircraft.getTransform().transformDirection(propulsion);
+		aircraft.addForce(propulsion);
+
+		// Add the forces acting on the aircraft.
+		registry.updateForces(duration);
+
+		// Update the aircraft's physics.
+		aircraft.integrate(duration);
+
+		// Do a very basic collision detection and response with the ground.
+		dynahex::Vector3 pos = aircraft.getPosition();
+		if (pos.y < 0.0f) {
+			pos.y = 0.0f;
+			aircraft.setPosition(pos);
+
+			if (aircraft.getVelocity().y < -10.0f) {
+				resetPlane();
+			}
+		}
+
+		return App::OnUserUpdate(fElapsedTime);
+	}
+};
+
 int main()
 {
-	BulletDemo demo;
+	FlightSimDemo demo;
 	if (demo.ConstructConsole(256, 240, 4, 4))
 		demo.Start();
 	return 0;
