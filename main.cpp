@@ -719,6 +719,8 @@ class FlightSimDemo : public App {
 		aircraft.setOrientation(1, 0, 0, 0);
 		aircraft.setVelocity(0, 0, 0);
 		aircraft.setRotation(0, 0, 0);
+
+		meshCube.LoadBox();
 	}
 public:
 	FlightSimDemo() : App(),  
@@ -767,50 +769,36 @@ public:
 
 	~FlightSimDemo(){}
 
-	void key(unsigned char key)
-	{
-		switch (key)
-		{
-		case 'q': case 'Q':
+	void key() {
+		if (GetKey(L'q').bHeld) {
 			rudder_control += 0.1f;
-			break;
-
-		case 'e': case 'E':
+		}
+		else if (GetKey(L'e').bHeld) {
 			rudder_control -= 0.1f;
-			break;
-
-		case 'w': case 'W':
+		}
+		else if (GetKey(L'w').bHeld) {
 			left_wing_control -= 0.1f;
 			right_wing_control -= 0.1f;
-			break;
-
-		case 's': case 'S':
+		}
+		else if (GetKey(L's').bHeld) {
 			left_wing_control += 0.1f;
 			right_wing_control += 0.1f;
-			break;
-
-		case 'd': case 'D':
+		}
+		else if (GetKey(L'd').bHeld) {
 			left_wing_control -= 0.1f;
 			right_wing_control += 0.1f;
-			break;
-
-		case 'a': case 'A':
+		}
+		else if (GetKey(L'a').bHeld) {
 			left_wing_control += 0.1f;
 			right_wing_control -= 0.1f;
-			break;
-
-		case 'x': case 'X':
+		}
+		else if (GetKey(L'x').bHeld) {
 			left_wing_control = 0.0f;
 			right_wing_control = 0.0f;
 			rudder_control = 0.0f;
-			break;
-
-		case 'r': case 'R':
+		}
+		else if (GetKey(L'r').bHeld) {
 			resetPlane();
-			break;
-
-		default:
-			break;
 		}
 
 		// Make sure the controls are in range
@@ -827,6 +815,16 @@ public:
 		rudder.setControl(rudder_control);
 	}
 
+	void display() {
+		dynahex::Vector3 pos = aircraft.getPosition();
+		dynahex::Vector3 offset(4.0f + aircraft.getVelocity().magnitude(), 0, 0);
+		offset = aircraft.getTransform().transformDirection(offset);
+
+		dynahex::Matrix4 transformation = aircraft.getTransform();
+
+		meshCube.MoveMesh(vec3d::ConvertVector3ToVec3d(pos));
+	}
+
 	bool OnUserCreate() override {
 		return App::OnUserCreate();
 	}
@@ -835,6 +833,8 @@ public:
 		// Find the duration of the last frame in seconds
 		float duration = (float)fElapsedTime * 0.001f;
 		if (duration <= 0.0f) return false;
+
+		key();
 
 		// Start with no forces or acceleration.
 		aircraft.clearAccumulators();
@@ -860,6 +860,8 @@ public:
 				resetPlane();
 			}
 		}
+
+		display();
 
 		return App::OnUserUpdate(fElapsedTime);
 	}
