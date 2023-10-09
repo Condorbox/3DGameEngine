@@ -2,6 +2,9 @@
 #include "App.cpp"
 #include "demos/Firework.cpp"
 #include "demos/Blob.cpp"
+#include "demos/Ragdoll.cpp"
+#include "dynahex/joints.h"
+
 
 class BulletDemo : public App 
 {
@@ -867,9 +870,170 @@ public:
 	}
 };
 
+class RagdollDemo : public App {
+
+	dynahex::Random random;
+	Bone bones[NUM_BONES];
+	dynahex::Joint joints[NUM_JOINTS];
+public:
+	RagdollDemo() : App() {
+		m_sAppName = L"Ragdoll Demo";
+
+		// Set up the bone hierarchy.
+
+		// Right Knee
+		joints[0].set(
+			bones[0].body, dynahex::Vector3(0, 1.07f, 0),
+			bones[1].body, dynahex::Vector3(0, -1.07f, 0),
+			0.15f
+		);
+
+		// Left Knee
+		joints[1].set(
+			bones[2].body, dynahex::Vector3(0, 1.07f, 0),
+			bones[3].body, dynahex::Vector3(0, -1.07f, 0),
+			0.15f
+		);
+
+		// Right elbow
+		joints[2].set(
+			bones[9].body, dynahex::Vector3(0, 0.96f, 0),
+			bones[8].body, dynahex::Vector3(0, -0.96f, 0),
+			0.15f
+		);
+
+		// Left elbow
+		joints[3].set(
+			bones[11].body, dynahex::Vector3(0, 0.96f, 0),
+			bones[10].body, dynahex::Vector3(0, -0.96f, 0),
+			0.15f
+		);
+
+		// Stomach to Waist
+		joints[4].set(
+			bones[4].body, dynahex::Vector3(0.054f, 0.50f, 0),
+			bones[5].body, dynahex::Vector3(-0.043f, -0.45f, 0),
+			0.15f
+		);
+
+		joints[5].set(
+			bones[5].body, dynahex::Vector3(-0.043f, 0.411f, 0),
+			bones[6].body, dynahex::Vector3(0, -0.411f, 0),
+			0.15f
+		);
+
+		joints[6].set(
+			bones[6].body, dynahex::Vector3(0, 0.521f, 0),
+			bones[7].body, dynahex::Vector3(0, -0.752f, 0),
+			0.15f
+		);
+
+		// Right hip
+		joints[7].set(
+			bones[1].body, dynahex::Vector3(0, 1.066f, 0),
+			bones[4].body, dynahex::Vector3(0, -0.458f, -0.5f),
+			0.15f
+		);
+
+		// Left Hip
+		joints[8].set(
+			bones[3].body, dynahex::Vector3(0, 1.066f, 0),
+			bones[4].body, dynahex::Vector3(0, -0.458f, 0.5f),
+			0.105f
+		);
+
+		// Right shoulder
+		joints[9].set(
+			bones[6].body, dynahex::Vector3(0, 0.367f, -0.8f),
+			bones[8].body, dynahex::Vector3(0, 0.888f, 0.32f),
+			0.15f
+		);
+
+		// Left shoulder
+		joints[10].set(
+			bones[6].body, dynahex::Vector3(0, 0.367f, 0.8f),
+			bones[10].body, dynahex::Vector3(0, 0.888f, -0.32f),
+			0.15f
+		);
+
+		reset();
+	}
+
+	void reset()
+	{
+		bones[0].setState(
+			dynahex::Vector3(0, 0.993, -0.5),
+			dynahex::Vector3(0.301, 1.0, 0.234));
+		bones[1].setState(
+			dynahex::Vector3(0, 3.159, -0.56),
+			dynahex::Vector3(0.301, 1.0, 0.234));
+		bones[2].setState(
+			dynahex::Vector3(0, 0.993, 0.5),
+			dynahex::Vector3(0.301, 1.0, 0.234));
+		bones[3].setState(
+			dynahex::Vector3(0, 3.15, 0.56),
+			dynahex::Vector3(0.301, 1.0, 0.234));
+		bones[4].setState(
+			dynahex::Vector3(-0.054, 4.683, 0.013),
+			dynahex::Vector3(0.415, 0.392, 0.690));
+		bones[5].setState(
+			dynahex::Vector3(0.043, 5.603, 0.013),
+			dynahex::Vector3(0.301, 0.367, 0.693));
+		bones[6].setState(
+			dynahex::Vector3(0, 6.485, 0.013),
+			dynahex::Vector3(0.435, 0.367, 0.786));
+		bones[7].setState(
+			dynahex::Vector3(0, 7.759, 0.013),
+			dynahex::Vector3(0.45, 0.598, 0.421));
+		bones[8].setState(
+			dynahex::Vector3(0, 5.946, -1.066),
+			dynahex::Vector3(0.267, 0.888, 0.207));
+		bones[9].setState(
+			dynahex::Vector3(0, 4.024, -1.066),
+			dynahex::Vector3(0.267, 0.888, 0.207));
+		bones[10].setState(
+			dynahex::Vector3(0, 5.946, 1.066),
+			dynahex::Vector3(0.267, 0.888, 0.207));
+		bones[11].setState(
+			dynahex::Vector3(0, 4.024, 1.066),
+			dynahex::Vector3(0.267, 0.888, 0.207));
+
+		dynahex::real strength = -random.randomReal(500.0f, 1000.0f);
+		for (unsigned i = 0; i < NUM_BONES; i++)
+		{
+			bones[i].body->addForceAtBodyPoint(
+				dynahex::Vector3(strength, 0, 0), dynahex::Vector3()
+			);
+		}
+		bones[6].body->addForceAtBodyPoint(
+			dynahex::Vector3(strength, 0, random.randomBinomial(1000.0f)),
+			dynahex::Vector3(random.randomBinomial(4.0f), random.randomBinomial(3.0f), 0)
+		);
+
+		// Reset the contacts
+		//cData.contactCount = 0;
+	}
+
+	void updateObjects(dynahex::real deltaTime) {
+		for (Bone* bone = bones; bone < bones + NUM_BONES; bone++) {
+			bone->body->integrate(deltaTime);
+			bone->calculateInternals();
+		}
+	}
+
+	bool OnUserCreate() override {
+		return App::OnUserCreate();
+	}
+
+	bool OnUserUpdate(float fElapsedTime) override {
+		updateObjects(fElapsedTime);
+		return App::OnUserUpdate(fElapsedTime);
+	}
+};
+
 int main()
 {
-	FlightSimDemo demo;
+	RagdollDemo demo;
 	if (demo.ConstructConsole(256, 240, 4, 4))
 		demo.Start();
 	return 0;

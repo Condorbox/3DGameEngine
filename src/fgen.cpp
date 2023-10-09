@@ -1,7 +1,6 @@
 
 #include <algorithm>
 #include "dynaHex/fgen.h"
-#include "fgen.h"
 
 using namespace dynahex;
 

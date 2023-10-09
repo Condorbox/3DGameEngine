@@ -182,9 +182,11 @@ namespace dynahex {
         void setMass(real mass);
 
         void setPosition(real x, real y, real z);
-        void setPosition(Vector3& position);
+        void setPosition(const Vector3& position);
         void setVelocity(real x, real y, real z);
+        void setVelocity(const Vector3& velocity);
         void setRotation(real x, real y, real z);
+        void setRotation(const Vector3& rotation);
         void setOrientation(real r, real i, real j, real k);
 
         void setDamping(const real linearDamping, const real angularDamping);
@@ -219,6 +221,27 @@ namespace dynahex {
         [[nodiscard]] Vector3 getVelocity() const;
         [[nodiscard]] Matrix4 getTransform() const;
         [[nodiscard]] Vector3 getPosition() const;
+        /**
+         * Returns true if the body is awake and responding to
+         * integration.
+         *
+         * @return The awake state of the body.
+         */
+        [[nodiscard]] bool getAwake() const;
+        [[nodiscard]] Vector3 getRotation() const;
+        [[nodiscard]] Vector3 getLastFrameAcceleration() const;
+
+        void getInverseInertiaTensorWorld(Matrix3 *pMatrix3) const;
+
+        [[nodiscard]] real getInverseMass() const;
+
+        void addVelocity(const Vector3 &deltaVelocity);
+
+        void addRotation(const Vector3 &deltaRotation);
+
+        void getPosition(Vector3 *position) const;
+        void getOrientation(Quaternion *orientation) const;
+        void setOrientation(Quaternion &orientation);
     };
 }
 #endif //DYNAHEX_BODY_H

@@ -9,8 +9,7 @@ using namespace dynahex;
 * Inline function that creates a transform matrix from a
 * position and orientation.
 */
-static inline void _calculateTransformMatrix(Matrix4 &transformMatrix, const Vector3 &position, const Quaternion &orientation)
-{
+static inline void _calculateTransformMatrix(Matrix4 &transformMatrix, const Vector3 &position, const Quaternion &orientation) {
     transformMatrix.data[0] = 1-2*orientation.j*orientation.j - 2*orientation.k*orientation.k;
     transformMatrix.data[1] = 2*orientation.i*orientation.j - 2*orientation.r*orientation.k;
     transformMatrix.data[2] = 2*orientation.i*orientation.k + 2*orientation.r*orientation.j;
@@ -140,7 +139,7 @@ void RigidBody::setPosition(const real x, const real y, const real z) {
     position.z = z;
 }
 
-void RigidBody::setPosition(Vector3& position) {
+void RigidBody::setPosition(const Vector3& position) {
     RigidBody::position = position;
 }
 
@@ -150,10 +149,18 @@ void RigidBody::setVelocity(const real x, const real y, const real z) {
     velocity.z = z;
 }
 
+void RigidBody::setVelocity(const Vector3& velocity) {
+    RigidBody::velocity = velocity;
+}
+
 void RigidBody::setRotation(const real x, const real y, const real z) {
     rotation.x = x;
     rotation.y = y;
     rotation.z = z;
+}
+
+void RigidBody::setRotation(const Vector3& rotation) {
+    RigidBody::rotation = rotation;
 }
 
 void RigidBody::setOrientation(const real r, const real i, const real j, const real k) {
@@ -180,8 +187,7 @@ void RigidBody::integrate(real duration) {
     lastFrameAcceleration.addScaledVector(forceAccum, inverseMass);
 
     // Calculate angular acceleration from torque inputs.
-    Vector3 angularAcceleration =
-        inverseInertiaTensorWorld.transform(torqueAccum);
+    Vector3 angularAcceleration = inverseInertiaTensorWorld.transform(torqueAccum);
 
     // Adjust velocities
     // Update linear velocity from both acceleration and impulse.
@@ -211,10 +217,9 @@ void RigidBody::integrate(real duration) {
     // Update the kinetic energy store, and possibly put the body to
     // sleep.
     if (canSleep) {
-        real currentMotion = velocity.scalarProduct(velocity) +
-            rotation.scalarProduct(rotation);
+        real currentMotion = velocity.scalarProduct(velocity) + rotation.scalarProduct(rotation);
 
-        real bias = real_pow(0.5, duration);
+        real bias = real_pow(0.5, duration);    // 0.5 -> baseBias usually [0.5, 0.8]
         motion = bias * motion + (1 - bias) * currentMotion;
 
         if (motion < sleepEpsilon) setAwake(false);
@@ -272,9 +277,49 @@ Matrix4 RigidBody::getTransform() const {
     return transformMatrix;
 }
 
-Vector3 dynahex::RigidBody::getPosition() const
-{
+Vector3 RigidBody::getPosition() const {
     return position;
+}
+
+bool RigidBody::getAwake() const {
+    return isAwake;
+}
+
+Vector3 RigidBody::getRotation() const {
+    return rotation;
+}
+
+Vector3 RigidBody::getLastFrameAcceleration() const {
+    return lastFrameAcceleration;
+}
+
+void RigidBody::getInverseInertiaTensorWorld(Matrix3 *inverseInertiaTensor) const {
+    *inverseInertiaTensor = inverseInertiaTensorWorld;
+}
+
+real RigidBody::getInverseMass() const{
+    return inverseMass;
+}
+
+void RigidBody::addVelocity(const Vector3 &deltaVelocity) {
+    velocity += deltaVelocity;
+}
+
+void RigidBody::addRotation(const Vector3 &deltaRotation) {
+    rotation += deltaRotation;
+}
+
+void RigidBody::getPosition(Vector3 *position) const {
+    *position = RigidBody::position;
+}
+
+void RigidBody::getOrientation(Quaternion *orientation) const {
+    *orientation = RigidBody::orientation;
+}
+
+void RigidBody::setOrientation(Quaternion &orientation) {
+    RigidBody::orientation = orientation;
+    RigidBody::orientation.normalise();
 }
 
 
