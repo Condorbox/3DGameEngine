@@ -1026,7 +1026,7 @@ public:
 	bool OnUserCreate() override {
 		for (unsigned i = 0; i < NUM_BONES; i++) {
 			cubes[i].LoadBox(0.15f);
-			cubes[i].MoveMesh(vec3d::ConvertVector3ToVec3d(bones[i].body->getPosition()));
+			cubes[i].SetPosition(vec3d::ConvertVector3ToVec3d(bones[i].body->getPosition()));
 		}
 
 		pDepthBuffer = new float[ScreenWidth() * ScreenHeight()];
@@ -1096,6 +1096,10 @@ public:
 		vector<triangle> vecTrianglesToRaster;
 
 		updateObjects(fElapsedTime);
+
+		for (unsigned i = 0; i < NUM_BONES; i++) {
+			cubes[i].SetPosition(vec3d::ConvertVector3ToVec3d(bones[i].body->getPosition()));
+		}
 
 		for (mesh e : cubes)
 		{

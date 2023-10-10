@@ -22,6 +22,10 @@ struct vec3d
 	float z = 0;
 	float w = 1; // Need a 4th term to perform sensible matrix vector multiplication
 
+	vec3d operator-(const vec3d& other) const {
+		return { x - other.x, y - other.y, z - other.z, w };
+	}
+
 	static vec3d ConvertVector3ToVec3d(dynahex::Vector3 vector3)
 	{
 		return vec3d{ vector3.x, vector3.y, vector3.z, 1.0f };
@@ -172,6 +176,19 @@ struct mesh
 				vertex.x += moveVector.x;
 				vertex.y += moveVector.y;
 				vertex.z += moveVector.z;
+			}
+		}
+	}
+
+	void SetPosition(const vec3d& newPosition) {
+
+		const vec3d positionDiff = newPosition - tris[0].p[0];
+
+		for (auto& tri : tris) {
+			for (auto& vertex : tri.p) {
+				vertex.x += positionDiff.x;
+				vertex.y += positionDiff.y;
+				vertex.z += positionDiff.z;
 			}
 		}
 	}
