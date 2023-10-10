@@ -875,6 +875,8 @@ class RagdollDemo : public App {
 	dynahex::Random random;
 	Bone bones[NUM_BONES];
 	dynahex::Joint joints[NUM_JOINTS];
+
+	mesh cubes[NUM_BONES];
 public:
 	RagdollDemo() : App() {
 		m_sAppName = L"Ragdoll Demo";
@@ -1022,12 +1024,94 @@ public:
 	}
 
 	bool OnUserCreate() override {
-		return App::OnUserCreate();
+		for (unsigned i = 0; i < NUM_BONES; i++) {
+			cubes[i].LoadBox(0.15f);
+			cubes[i].MoveMesh(vec3d::ConvertVector3ToVec3d(bones[i].body->getPosition()));
+		}
+
+		pDepthBuffer = new float[ScreenWidth() * ScreenHeight()];
+		// Projection Matrix
+		matProj = Matrix_MakeProjection(90.0f, (float)ScreenHeight() / (float)ScreenWidth(), 0.1f, 1000.0f);
+		return true;
 	}
 
 	bool OnUserUpdate(float fElapsedTime) override {
+		if (GetKey(VK_UP).bHeld)
+			vCamera.y += 8.0f * fElapsedTime;	// Travel Upwards
+
+		if (GetKey(VK_DOWN).bHeld)
+			vCamera.y -= 8.0f * fElapsedTime;	// Travel Downwards
+
+
+		// Dont use these two in FPS mode, it is confusing :P
+		if (GetKey(VK_LEFT).bHeld)
+			vCamera.x -= 8.0f * fElapsedTime;	// Travel Along X-Axis
+
+		if (GetKey(VK_RIGHT).bHeld)
+			vCamera.x += 8.0f * fElapsedTime;	// Travel Along X-Axis
+		///////
+
+		vec3d vForward = Vector_Mul(vLookDir, 8.0f * fElapsedTime);
+
+		// Standard FPS Control scheme, but turn instead of strafe
+		if (GetKey(L'W').bHeld)
+			vCamera = Vector_Add(vCamera, vForward);
+
+		if (GetKey(L'S').bHeld)
+			vCamera = Vector_Sub(vCamera, vForward);
+
+		if (GetKey(L'A').bHeld)
+			fYaw -= 2.0f * fElapsedTime;
+
+		if (GetKey(L'D').bHeld)
+			fYaw += 2.0f * fElapsedTime;
+
+		// Set up "World Tranmsform" though not updating theta 
+		// makes this a bit redundant
+		mat4x4 matRotZ, matRotX;
+		//fTheta += 1.0f * fElapsedTime; // Uncomment to spin me right round baby right round
+		matRotZ = Matrix_MakeRotationZ(fTheta * 0.5f);
+		matRotX = Matrix_MakeRotationX(fTheta);
+
+		mat4x4 matTrans;
+		matTrans = Matrix_MakeTranslation(0.0f, 0.0f, 5.0f);
+
+		mat4x4 matWorld;
+		matWorld = Matrix_MakeIdentity();	// Form World Matrix
+		matWorld = Matrix_MultiplyMatrix(matRotZ, matRotX); // Transform by rotation
+		matWorld = Matrix_MultiplyMatrix(matWorld, matTrans); // Transform by translation
+
+		// Create "Point At" Matrix for camera
+		vec3d vUp = { 0,1,0 };
+		vec3d vTarget = { 0,0,1 };
+		mat4x4 matCameraRot = Matrix_MakeRotationY(fYaw);
+		vLookDir = Matrix_MultiplyVector(matCameraRot, vTarget);
+		vTarget = Vector_Add(vCamera, vLookDir);
+		mat4x4 matCamera = Matrix_PointAt(vCamera, vTarget, vUp);
+
+		// Make view matrix from camera
+		mat4x4 matView = Matrix_QuickInverse(matCamera);
+
+		// Store triagles for rastering later
+		vector<triangle> vecTrianglesToRaster;
+
 		updateObjects(fElapsedTime);
-		return App::OnUserUpdate(fElapsedTime);
+
+		for (mesh e : cubes)
+		{
+			DrawTrianglesFromMesh(e, matWorld, matView, &vecTrianglesToRaster);
+		}
+
+		// Clear Screen
+		Fill(0, 0, ScreenWidth(), ScreenHeight(), PIXEL_SOLID, FG_CYAN);
+
+		// Clear Depth Buffer
+		for (int i = 0; i < ScreenWidth() * ScreenHeight(); i++)
+			pDepthBuffer[i] = 0.0f;
+
+		DrawRasterizedTriangles(vecTrianglesToRaster);
+
+		return true;
 	}
 };
 
